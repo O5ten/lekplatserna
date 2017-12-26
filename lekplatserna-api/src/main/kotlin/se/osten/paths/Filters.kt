@@ -12,7 +12,7 @@ class Filters(private val users: List<String>) {
                 if (token !in users) {
                     halt(401, "You are not a valid user")
                 }
-            } else if (req.headers("Host").startsWith("localhost")) {
+            } else if (req.headers("Host").startsWith("lekplatserna.se")) {
 
             } else {
                 res.header("WWW-Authenticate", "Basic realm=\"User Visible Realm\"")
