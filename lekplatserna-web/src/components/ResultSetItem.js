@@ -23,9 +23,9 @@ class ResultSetItem extends Component {
                 <div className="ResultSetItem-tags">
                     {
                         this.state.playground.tags.map((tag, i) =>
-                            <label key={i} className="ResultSetItem-tags-tag">
+                            <div key={i} className="ResultSetItem-tags-tag">
                                 {tag}
-                            </label>
+                            </div>
                         )
                     }
                 </div>

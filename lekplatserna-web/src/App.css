@@ -17,16 +17,16 @@ body {
 
 .App-header {
   background: #dddddd;
-  height: 70px;
   padding: 20px;
   color: #225522;
 }
 
 .App-activity-resultset {
   background-color: #dddddd;
-  height: 350px;
+  height: 100%;
   border-width: 1px;
   padding: 8px;
+  min-height: 500px;
 }
 
 .App-activity-resultset-info {
@@ -46,7 +46,6 @@ body {
     font: 400 13.33333px monospace;
     width: 200px;
     padding: 8px;
-    margin: 8px;
 }
 
 .app-button:hover,focus {

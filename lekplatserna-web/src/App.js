@@ -25,7 +25,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
             <h1>Lekplatserna</h1>
-            <p>hitta en lekplats i närheten av dig</p>
+            hitta en lekplats i närheten av dig
         </div>
         <div className="App-activity-area">
             <button className="App-activity-area-proximity app-button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
