@@ -20,10 +20,10 @@ class ResultSetItem extends Component {
                 {this.state.playground.name}
             </h2>
             <p className="ResultSetItem-content">{this.state.playground.description}</p>
-            <div className="ResultSetItem-tags">
+            <div className="ResultSetItem-tags tag-container">
                 {
                     this.state.playground.tags.map((tag, i) =>
-                        <div key={i} className="ResultSetItem-tags-tag">
+                        <div key={i} className="ResultSetItem-tags-tag tag">
                             {tag}
                         </div>
                     )

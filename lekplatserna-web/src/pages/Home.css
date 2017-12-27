@@ -2,7 +2,6 @@
   background: linear-gradient(#668866, #114411);
   padding: 0px 8px;
   text-align: center;
-  font-family: monospace;
 }
 
 .Home-activity-area {
@@ -15,13 +14,13 @@
 }
 
 .Home-header {
-  background: #dddddd;
+  background: #ddd;
   padding: 20px;
   color: #225522;
 }
 
 .Home-activity-resultset {
-  background-color: #dddddd;
+  background-color: #ddd;
   height: 100%;
   border-width: 1px;
   padding: 8px;

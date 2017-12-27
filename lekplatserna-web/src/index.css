@@ -1,5 +1,24 @@
 body {
+  background: linear-gradient(#668866, #114411);
+  background-repeat: no-repeat;
+  height: 100%;
   margin: 0;
   padding: 0px;
-  font-family: sans-serif;
+  font-family: monospace;
+}
+
+.tag-container {
+    display: inline-block;
+}
+
+.tag {
+    display: inline-block;
+    background: beige;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    padding: 3px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
