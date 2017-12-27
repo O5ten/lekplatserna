@@ -12,6 +12,25 @@ class ResultSet extends Component {
     }
   }
 
+  scrollToResultSet = () => {
+      var resultSet = document.getElementsByClassName('Home-activity-resultset')[0];
+      var resultSetLocation = resultSet.getBoundingClientRect().y;
+      var initialY = document.body.scrollTop;
+      var y = initialY + resultSetLocation;
+      var baseY = (initialY + y) * 0.5;
+      var difference = initialY - baseY;
+      var startTime = performance.now();
+
+      function step() {
+          var normalizedTime = (performance.now() - startTime) / 500;
+          if (normalizedTime > 1) normalizedTime = 1;
+
+          window.scrollTo(0, baseY + difference * Math.cos(normalizedTime * Math.PI));
+          if (normalizedTime < 1) window.requestAnimationFrame(step);
+      }
+      window.requestAnimationFrame(step);
+  }
+
   fetchEntriesByCoordinates(location) {
     if(location){
         fetch(`/api/playground/at/${location.lat}/${location.lon}/within/2/km`)
@@ -22,13 +41,14 @@ class ResultSet extends Component {
                 message: "Lekplatser i närheten av dig (" + playgrounds.length + " stycken)",
                 playgrounds: playgrounds
               }));
+              this.scrollToResultSet();
             });
     }
   }
 
   fetchEntriesByCity(city) {
     if(city){
-        fetch(`/api/playground/at/${city.lat}/${city.lon}/within/500/m`)
+        fetch(`/api/playground/at/${city.lat}/${city.lon}/within/2/km`)
             .then((response) => {
               return response.json();
             }).then((playgrounds) => {
@@ -36,8 +56,8 @@ class ResultSet extends Component {
                 message: "Lekplatser i närheten av " + city.label + "(" + playgrounds.length + " stycken)",
                 playgrounds: playgrounds
               }));
+              this.scrollToResultSet();
             });
-        this.setState({message: `Visa lista med lekplatser omkring: ${city.label} vid ${city.lat}, ${city.lon}`})
     }
   }
 
@@ -46,9 +66,11 @@ class ResultSet extends Component {
       <div className="ResultSet">
         <h2 className="ResultSet-header">{this.state.message}</h2>
         <div className="ResultSet-list">
-            {this.state.playgrounds.map(function(playground, i){
-                return <ResultSetItem playground={playground} key={i}/>;
-            })}
+            {
+                this.state.playgrounds.map(function(playground, i){
+                    return <ResultSetItem playground={playground} key={i}/>;
+                })
+            }
         </div>
       </div>
     );

@@ -15,11 +15,11 @@ a {
 }
 
 .ResultSetItem:hover {
-    background: #775577;
+    background: #aaa;
 }
 
 .ResultSetItem:active {
-    background: #445577;
+    background: #888;
 }
 
 .ResultSetItem-tags-tag {

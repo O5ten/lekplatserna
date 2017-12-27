@@ -1,27 +1,26 @@
-body {
+.Home {
   background: linear-gradient(#668866, #114411);
-}
-.App {
-  margin: 0px 8px;
+  padding: 0px 8px;
   text-align: center;
   font-family: monospace;
 }
 
-.App-activity-area {
+.Home-activity-area {
     margin: 8px;
 }
 
-.App-activity-area-or {
+.Home-activity-area-or {
+    margin: 8px;
     color: white;
 }
 
-.App-header {
+.Home-header {
   background: #dddddd;
   padding: 20px;
   color: #225522;
 }
 
-.App-activity-resultset {
+.Home-activity-resultset {
   background-color: #dddddd;
   height: 100%;
   border-width: 1px;
@@ -29,14 +28,14 @@ body {
   min-height: 500px;
 }
 
-.App-activity-resultset-info {
+.Home-activity-resultset-info {
   margin: 0px;
   padding: 8px;
   border-radius: 15px;
   background-color: #dddddd;
 }
 
-.app-button {
+.location-button {
     background: white;
     border-radius: 5px;
     border-color: #888;
@@ -48,13 +47,13 @@ body {
     padding: 8px;
 }
 
-.app-button:hover,focus {
+.location-button:hover,focus {
     color: #aaa;
     border-color: #aaa;
     background: #ddd;
 }
 
-.app-button:active {
+.location-button:active {
     color: #aaa;
     border-color: #aaa;
     background: #222;

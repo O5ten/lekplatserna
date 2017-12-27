@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import ResultSet from './components/ResultSet';
-import SearchCity from './components/SearchCity';
+import './Home.css';
+import ResultSet from '../components/ResultSet';
+import SearchCity from '../components/SearchCity';
 
-class App extends Component {
+class Home extends Component {
 
   findPlaygroundsInProximity(data) {
     return navigator.geolocation.getCurrentPosition(this.renderResultSet.bind(this));
@@ -22,22 +22,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
+      <div className="Home">
+        <div className="Home-header">
             <h1>Lekplatserna</h1>
-            hitta en lekplats i närheten av dig
+            Hitta lekplatserna i närheten
         </div>
-        <div className="App-activity-area">
-            <button className="App-activity-area-proximity app-button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
-            <p className="App-activity-area-or">eller</p>
+        <div className="Home-activity-area">
+            <button className="Home-activity-area-proximity location-button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
+            <p className="Home-activity-area-or">eller</p>
             <center>
                 <SearchCity
-                    className="App-activity-area-search"
+                    className="Home-activity-area-search"
                     onCitySelected={this.onCitySeleted.bind(this)}
                 />
             </center>
         </div>
-        <div className="App-activity-resultset">
+        <div className="Home-activity-resultset">
             <ResultSet ref="resultSet"/>
         </div>
       </div>
@@ -45,4 +45,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;

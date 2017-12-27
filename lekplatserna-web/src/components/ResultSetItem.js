@@ -14,23 +14,23 @@ class ResultSetItem extends Component {
 
   render() {
     return (
-      <div className="ResultSetItem">
-            <a href={"/"+this.state.playground.id}>
-                <h2 className="ResultSetItem-header">
-                    {this.state.playground.name}
-                </h2>
-                <p className="ResultSetItem-content">{this.state.playground.description}</p>
-                <div className="ResultSetItem-tags">
-                    {
-                        this.state.playground.tags.map((tag, i) =>
-                            <div key={i} className="ResultSetItem-tags-tag">
-                                {tag}
-                            </div>
-                        )
-                    }
-                </div>
-            </a>
-      </div>
+      <a href={"/lekplats/" + this.state.playground.id}>
+        <div className="ResultSetItem">
+            <h2 className="ResultSetItem-header">
+                {this.state.playground.name}
+            </h2>
+            <p className="ResultSetItem-content">{this.state.playground.description}</p>
+            <div className="ResultSetItem-tags">
+                {
+                    this.state.playground.tags.map((tag, i) =>
+                        <div key={i} className="ResultSetItem-tags-tag">
+                            {tag}
+                        </div>
+                    )
+                }
+          </div>
+        </div>
+      </a>
     );
   }
 }
