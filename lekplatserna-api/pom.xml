@@ -7,11 +7,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <api_users>testuser:testpassword</api_users>
+        <api.users></api.users>
         <exposePort>4567</exposePort>
         <mongodb.host>localhost</mongodb.host>
         <mongodb.port>27017</mongodb.port>
-        <env>dev</env>
+        <environment>dev</environment>
     </properties>
     <name>Lekplatserna API</name>
     <parent>

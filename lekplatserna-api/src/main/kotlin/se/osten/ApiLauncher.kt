@@ -22,10 +22,10 @@ fun main(args: Array<String>) {
     fis.close()
 
     val dbConn = DatabaseConnection(properties)
-    val users = properties.getProperty("api_users").split(',').map { encode64(it) }
+    val users = properties.getProperty("api.users").split(',').map { encode64(it) }
 
     port(properties.getProperty("exposePort").toInt())
-    Filters(users).enableAuthentication()
+    Filters(users, properties.getOrDefault("environment", "prod").toString()).enableAuthentication()
 
     println("Registering resources:\n================")
     path("/api"){

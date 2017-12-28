@@ -12,6 +12,7 @@ body {
 }
 
 .tag {
+    font-style: normal;
     display: inline-block;
     background: beige;
     border-color: black;
