@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Home from './pages/Home';
+import Edit from './pages/Edit';
 import About from './pages/About';
 import Lekplats from './pages/Lekplats';
 import registerServiceWorker from './registerServiceWorker';
@@ -11,6 +12,8 @@ ReactDOM.render((
 <BrowserRouter>
      <div>
         <Switch>
+            <Route path="/lekplats/hantera/:id" component={Edit} />
+            <Route path="/lekplats/ny" component={Edit} />
             <Route path="/lekplats/:id" component={Lekplats} />
             <Route path="/om" component={About} />
             <Route

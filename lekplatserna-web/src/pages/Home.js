@@ -5,7 +5,7 @@ import SearchCity from '../components/SearchCity';
 
 class Home extends Component {
 
-  findPlaygroundsInProximity(data) {
+  findPlaygroundsInProximity() {
     return navigator.geolocation.getCurrentPosition(this.renderResultSet.bind(this));
   }
 
@@ -28,7 +28,7 @@ class Home extends Component {
             Hitta lekplatserna i närheten
         </div>
         <div className="Home-activity-area">
-            <button className="Home-activity-area-proximity location-button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
+            <button className="Home-activity-area-proximity button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
             <p className="Home-activity-area-or">eller</p>
             <center>
                 <SearchCity

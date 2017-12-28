@@ -44,8 +44,8 @@ class Lekplats extends Component {
     <div className="Lekplats">
           <h1 className="Lekplats-Header">{this.state.playground.name}</h1>
            <div className="Lekplats-Tags tag-container">
-               {this.state.playground.tags.map((tag) => {
-                  return <i className="Lekplats-Tag tag">{tag}</i>
+               {this.state.playground.tags.map((tag, i) => {
+                  return <i className="Lekplats-Tag tag" key={i}>{tag}</i>
                })}
            </div>
           <p className="Lekplats-Description">{this.state.playground.description}</p>

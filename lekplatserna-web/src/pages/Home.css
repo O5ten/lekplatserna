@@ -21,10 +21,9 @@
 
 .Home-activity-resultset {
   background-color: #ddd;
-  height: 100%;
   border-width: 1px;
   padding: 8px;
-  min-height: 500px;
+  min-height: 340px;
 }
 
 .Home-activity-resultset-info {
@@ -34,26 +33,3 @@
   background-color: #dddddd;
 }
 
-.location-button {
-    background: white;
-    border-radius: 5px;
-    border-color: #888;
-    border-style: solid;
-    border-width: 1px;
-    color: #aaa;
-    font: 400 13.33333px monospace;
-    width: 200px;
-    padding: 8px;
-}
-
-.location-button:hover,focus {
-    color: #aaa;
-    border-color: #aaa;
-    background: #ddd;
-}
-
-.location-button:active {
-    color: #aaa;
-    border-color: #aaa;
-    background: #222;
-}

@@ -8,7 +8,7 @@ class SearchCity extends Component {
 
   constructor(){
     super();
-    this.fetchCitiesByKeyword = debounce(500, this.fetchCitiesByKeyword);
+    this.fetchCitiesByKeyword = debounce(500, this.fetchCitiesByKeyword.bind(this));
   }
 
   state = {
