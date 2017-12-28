@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
     val users = properties.getProperty("api.users").split(',').map { encode64(it) }
 
     port(properties.getProperty("exposePort").toInt())
-    Filters(users, properties.getOrDefault("environment", "prod").toString()).enableAuthentication()
+    Filters(users, properties.getProperty("api.allowed.host").toString()).enableAuthentication()
 
     println("Registering resources:\n================")
     path("/api"){

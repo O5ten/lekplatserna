@@ -11,7 +11,6 @@
         <exposePort>4567</exposePort>
         <mongodb.host>localhost</mongodb.host>
         <mongodb.port>27017</mongodb.port>
-        <environment>dev</environment>
     </properties>
     <name>Lekplatserna API</name>
     <parent>
@@ -143,4 +142,21 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <api.allowed.host>localhost</api.allowed.host>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <api.allowed.host>lekplatserna.se</api.allowed.host>
+            </properties>
+        </profile>
+    </profiles>
 </project>
