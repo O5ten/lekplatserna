@@ -30,7 +30,7 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
     }
 
     fun start() {
-        println("/playground")
+        println("/api/playground")
         path("/playground") {
             get("/at/:lat/:lon/within/:distance/:unit") { req, res ->
                 res.type("application/json")
