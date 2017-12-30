@@ -1,7 +1,5 @@
 package se.osten.api
 
-import se.osten.beans.Playground
-
 interface DAO<T> {
     fun save(playground: T)
     fun findById(id: String): T?

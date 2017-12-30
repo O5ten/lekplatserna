@@ -4,12 +4,12 @@ import org.litote.kmongo.*
 import se.osten.api.DAO
 import se.osten.beans.DatabaseConnection
 import se.osten.beans.Playground
+import se.osten.beans.Tag
 import se.osten.utils.byId
 
 class MongoPlaygroundDAO(val dbConn: DatabaseConnection, collectionName: String = "playground") : DAO<Playground> {
 
     val entities = dbConn.database.getCollection<Playground>(collectionName)
-
     override fun count(): Long {
         return entities.count()
     }

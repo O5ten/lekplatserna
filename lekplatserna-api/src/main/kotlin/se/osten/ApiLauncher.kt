@@ -2,9 +2,11 @@ package se.osten
 
 import se.osten.beans.DatabaseConnection
 import se.osten.dao.MongoPlaygroundDAO
+import se.osten.dao.MongoTagView
 import se.osten.paths.CityPath
 import se.osten.paths.PlaygroundPath
 import se.osten.paths.Filters
+import se.osten.paths.TagPath
 import se.osten.utils.encode64
 import spark.Spark.get
 import spark.Spark.path
@@ -35,6 +37,7 @@ fun main(args: Array<String>) {
         }
         val entityDao = MongoPlaygroundDAO(dbConn, "playground");
         PlaygroundPath(entityDao).start()
+        TagPath(MongoTagView(dbConn)).start()
         CityPath().start()
         ""
     }
