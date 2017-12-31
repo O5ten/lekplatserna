@@ -73,9 +73,10 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
             put("/:id") { req, res ->
                 val id = req.params("id")
                 res.type("application/json")
-                val sittpuff: Playground = gson.fromJson(req.body(), Playground::class.java)
+                val playground: Playground = gson.fromJson(req.body(), Playground::class.java).copy(id = id)
                 log(req, " modified")
-                dao.update(id, sittpuff)
+
+                dao.update(id, playground)
                 gson.toJson(PlaygroundResponse(id, "modified"))
             }
 

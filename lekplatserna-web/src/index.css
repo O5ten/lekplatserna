@@ -1,7 +1,7 @@
 body {
   background: linear-gradient(#668866, #114411);
   background-repeat: no-repeat;
-  min-height: 600px;
+  min-height: 100%;
   margin: 0px;
   padding: 0px;
   font-family: monospace;

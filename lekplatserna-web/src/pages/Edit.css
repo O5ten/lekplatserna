@@ -17,6 +17,10 @@
     border-width: 1px;
 }
 
+.Edit-Proximity-Button {
+    margin: 8px 0px;
+}
+
 .Edit-Description {
     height: 100px;
     width: 300px;

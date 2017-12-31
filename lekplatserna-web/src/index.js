@@ -12,9 +12,9 @@ ReactDOM.render((
 <BrowserRouter>
      <div>
         <Switch>
-            <Route path="/lekplats/hantera/:id" component={Edit} />
-            <Route path="/lekplats/ny" component={Edit} />
+            <Route path="/lekplats/:id/hantera" component={Edit} />
             <Route path="/lekplats/:id" component={Lekplats} />
+            <Route path="/lekplats" component={Edit} />
             <Route path="/om" component={About} />
             <Route
               path="/kontakt"

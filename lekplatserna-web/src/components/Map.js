@@ -4,12 +4,25 @@ import { withScriptjs } from 'react-google-maps';
 
 class Map extends Component{
 
-  shouldComponentUpdate(nextProps, nextState){
-    if(this.props.center.lat === nextProps.center.lat){
-      return false
-    }else{
-      return true
+  constructor(props){
+    super();
+    this.state = {
+      map: {}
     }
+  }
+
+  mapLoaded(map){
+    this.setState(Object.assign({}, this.state, {
+        map: map
+    }));
+  }
+
+  onDblClick(clickEvent){
+    this.props.mapCenterMoved(clickEvent.latLng.lat(), clickEvent.latLng.lng());
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+   return this.props.center.lat !== nextProps.center.lat;
   }
 
   render(){
@@ -18,6 +31,8 @@ class Map extends Component{
         function(props){
             return (
               <GoogleMap
+                ref={this.mapLoaded.bind(this)}
+                onDblClick={this.onDblClick.bind(this)}
                 visible={this.props.center.lat !== 0 || this.props.center.lon !== 0}
                 defaultZoom={this.props.zoom}
                 defaultCenter={{ lat: this.props.center.lat, lng: this.props.center.lon }}>
@@ -31,6 +46,7 @@ class Map extends Component{
     if(this.props.center.lat){
       map = <AsyncMap
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTg6SwwNWbDjc4FwAZfE4VN_AUh346tF4&v=3.exp&libraries=geometry,drawing,places"
+        ref="map"
         loadingElement={
           <div style={{ width: `100%` }} />
         }
@@ -44,6 +60,7 @@ class Map extends Component{
     }else{
       map = <div style={{height: `0px`}} />
     }
+    console.log(map);
     return(map)
   }
 }

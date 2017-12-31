@@ -13,12 +13,11 @@ class Edit extends Component {
         id: route.match.params.id || 'ny',
         name: '',
         description: '',
-        lat: 0.0, //Stockholm as good a default as any
+        lat: 0.0,
         lon: 0.0,
         tags: [],
         suggestions: []
     };
-    this.options = []
     if(this.state.id !== 'ny'){
         this.fetchPlayground();
     }
@@ -30,7 +29,7 @@ class Edit extends Component {
         .then((response) => {
           return response.json();
         }).then((playground) => {
-            playground.tags = playground.tags.map(function(t,i){return {text: t, i: i}})
+          playground.tags = playground.tags.map((tag, ix) => {return {text: tag, i: ix}});
           this.setState(Object.assign({}, this.state, playground));
         });
   }
@@ -62,9 +61,9 @@ class Edit extends Component {
     });
   }
 
-    handleSubmit() {
-        fetch('/api/playground', {
-          method: 'POST',
+  handleSave() {
+      fetch('/api/playground' + (this.state.id === 'ny' ? '' : `/${this.state.id}`), {
+          method: this.state.id === 'ny' ? 'POST' : 'PUT',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -72,18 +71,18 @@ class Edit extends Component {
           body: JSON.stringify({
               name:  this.state.name,
               description: this.state.description,
-              tags: this.state.tags.map(function(v){ return v.text;}),
+              tags: this.state.tags.map(v => v.text),
               lat: this.state.lat,
               lon: this.state.lon
             })
           }
-        )
-    }
-
-    tagAdded(tags) {
-        this.setState(Object.assign({}, this.state, {
-            tags: tags
-        }));
+        ).then(function(res, xhr){
+            console.log(res, xhr);
+            //window.location = `/lekplats/${id}`;
+        }, function(res, xhr){
+            console.log(res, xhr);
+            //window.location = `/lekplats/${id}`;
+        })
     }
 
     handleTagDelete(i) {
@@ -94,10 +93,13 @@ class Edit extends Component {
 
     handleTagAddition(tag) {
         let tags = this.state.tags;
-        tags.push({
-            id: tags.length + 1,
-            text: tag
-        });
+        let notAlreadyAdded = !tags.some(v => v.text === tag);
+        if(notAlreadyAdded){
+            tags.push({
+                id: tags.length + 1,
+                text: tag
+            });
+        }
         this.setState(Object.assign({}, this.state, { tags: tags }));
     }
 
@@ -111,36 +113,45 @@ class Edit extends Component {
 
     tagSuggestionFilter(input, suggestions) {
         let lowerCaseQuery = input.toLowerCase()
-        return suggestions.filter(function(suggestion)  {
-            return suggestion.toLowerCase().includes(lowerCaseQuery) && !this.state.tags.some(function(v){ return v.text === suggestion}.bind(this))
-        }.bind(this));
+        return suggestions.filter(suggestion =>
+            suggestion.toLowerCase().includes(lowerCaseQuery) && !this.state.tags.some(v => v.text === suggestion)
+        );
+    }
+
+    mapCenterMoved(lat, lon){
+        this.setState(Object.assign({}, this.state, {
+            lat: lat,
+            lon: lon
+        }));
     }
 
     render() {
     return (
         <div className="Edit">
+            <h1>{this.state.id === 'ny' ? "Skapa ny lekplats" : ("Hantera " + this.state.name)}</h1>
             <h3>Namn</h3>
             <input placeholder="Lekplatsens namn" className="Edit-Name" name="name" type="text" onChange={this.handleChange.bind(this)} value={this.state.name}/>
             <h3>Beskrivning</h3>
             <textarea placeholder="En kort men ändå sammanfattande beskrivning av lekplatsen" className="Edit-Description" name="description" type="text" onChange={this.handleChange.bind(this)} value={this.state.description}/>
-            <h3>Taggar</h3>
+            <h3>Egenskaper</h3>
             <ReactTags tags={this.state.tags}
                        suggestions={this.state.suggestions}
-                       placeholder={"#Lägg till ny tag"}
+                       placeholder={"#Lägg till ny egenskap"}
                        handleFilterSuggestions={this.tagSuggestionFilter.bind(this)}
                        handleDelete={this.handleTagDelete.bind(this)}
                        handleAddition={this.handleTagAddition.bind(this)}
                        handleDrag={this.handleTagDrag.bind(this)} />
-            <h3>Plats: Lat {this.state.lat}, Lon {this.state.lon}</h3>
+            <h3>Plats</h3>
             <div className="Edit-Proximity">
-                <button className="Edit-Proximity button" onClick={this.useProximityToSetCoordinate.bind(this)}>Använd enhetens plats</button>
-                <Map className="Edit-Container-Map"
+                <button className="Edit-Proximity-Button button" onClick={this.useProximityToSetCoordinate.bind(this)}>Använd enhetens plats</button>
+                <Map className="Edit-Proximity-Container-Map"
                       center={this.state}
+                      mapCenterMoved={this.mapCenterMoved.bind(this)}
                       height='300px'
                       width='300px'
                       zoom={15}/>
             </div>
-            <button className="Edit-Submit button" type="submit" onClick={this.handleSubmit.bind(this)}>Spara</button>
+            <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this)}>Spara</button>
         </div>
     );
   }
