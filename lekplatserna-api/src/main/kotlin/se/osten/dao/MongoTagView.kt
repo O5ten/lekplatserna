@@ -1,6 +1,5 @@
 package se.osten.dao
 
-import com.google.gson.Gson
 import com.mongodb.client.AggregateIterable
 import org.litote.kmongo.MongoOperator.*
 import org.litote.kmongo.aggregate
@@ -10,30 +9,35 @@ import se.osten.api.View
 import se.osten.beans.DatabaseConnection
 import se.osten.beans.Tag
 
-class MongoTagView(val dbConn: DatabaseConnection) : View<Tag> {
-    val tags = "\$tags"
-    val tagView: AggregateIterable<Tag> = dbConn.database
+class MongoTagView(dbConn: DatabaseConnection) : View<Tag> {
+    val onTag = "\$tags"
+    val tags: AggregateIterable<Tag> = dbConn.database
             .getCollection("playground")
             .aggregate<Tag>("""[
                     {
-                        $unwind : "$tags"
+                        $unwind : "$onTag"
                     },
                     {
                         $group: {
-                            _id : "$tags",
+                            _id : "$onTag",
                             count: {
                                 $sum: 1
                             }
+                        }
+                    },
+                    {
+                        $sort : {
+                            count : -1
                         }
                     }
             ]""".formatJson())
 
     override fun findAll(): List<Tag> {
-        return tagView.toList()
+        return tags.toList()
     }
 
     override fun findByName(name: String): Tag? {
-        return tagView.toList().find { it._id.equals(name) }
+        return tags.find { it._id.equals(name) }
     }
 }
 

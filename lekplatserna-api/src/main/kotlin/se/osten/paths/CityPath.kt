@@ -28,7 +28,8 @@ class CityPath() {
     }
 
     fun start() {
-        path("/api/city") {
+        println("/api/city")
+        path("/city") {
             get("/:id") { req, res ->
                 val capitalizedKeyword = req.params(":id").substring(0, 1).toUpperCase() + req.params(":id").substring(1);
                 if(capitalizedKeyword.length < MINIMUM_QUERY_LENGTH){

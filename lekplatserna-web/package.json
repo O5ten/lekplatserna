@@ -8,11 +8,15 @@
     "font-awesome": "^4.7.0",
     "google-maps": "^3.2.1",
     "react": "^15.6.1",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-addons-shallow-compare": "^15.6.2",
     "react-dom": "^15.6.1",
     "react-google-maps": "^9.4.3",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.10",
     "react-select": "^1.1.0",
+    "react-selectize": "2.1.0",
+    "react-tag-input": "^4.7.2",
     "throttle-debounce": "^1.0.1"
   },
   "scripts": {

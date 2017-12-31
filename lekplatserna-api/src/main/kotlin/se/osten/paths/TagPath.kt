@@ -1,7 +1,6 @@
 package se.osten.paths
 
 import com.google.gson.Gson
-import se.osten.api.DAO
 import se.osten.api.View
 import se.osten.beans.Tag
 import spark.Spark.get

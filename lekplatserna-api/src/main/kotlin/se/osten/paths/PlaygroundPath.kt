@@ -62,9 +62,10 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 val id: String = createGuid()
                 val playground: Playground = gson.fromJson(req.body(), Playground::class.java).copy(id)
                 dao.save(playground)
-                log(req, " created")
+                log(req, "$id created")
                 res.status(201)
                 res.type("application/json")
+                dao.save(playground)
                 playgroundCache.insert(Coordinate(playground.lat, playground.lon), playground)
                 gson.toJson(PlaygroundResponse(id, "created"))
             }

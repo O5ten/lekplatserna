@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
-import { withScriptjs } from 'react-google-maps';
-import Select from 'react-select';
+import Map from '../components/Map'
+import { WithContext as ReactTags } from 'react-tag-input';
 
 import './Edit.css';
 
@@ -9,17 +8,21 @@ class Edit extends Component {
 
   constructor(route){
     super();
+
     this.state = {
-        id: route.match.params.id || 'new',
+        id: route.match.params.id || 'ny',
         name: '',
         description: '',
         lat: 0.0, //Stockholm as good a default as any
         lon: 0.0,
-        tags: []
+        tags: [],
+        suggestions: []
     };
-    if(this.state.id !== 'new'){
+    this.options = []
+    if(this.state.id !== 'ny'){
         this.fetchPlayground();
     }
+    this.fetchTags();
   }
 
   fetchPlayground() {
@@ -27,7 +30,20 @@ class Edit extends Component {
         .then((response) => {
           return response.json();
         }).then((playground) => {
+            playground.tags = playground.tags.map(function(t,i){return {text: t, i: i}})
           this.setState(Object.assign({}, this.state, playground));
+        });
+  }
+
+  fetchTags(){
+    return fetch(`/api/tag`)
+        .then((response) => {
+            return response.json();
+        }).then((tags) => {
+            let suggestions = tags.map((t) => {
+                return t.tag;
+            });
+            this.setState(Object.assign({}, this.state, { suggestions: suggestions }));
         });
   }
 
@@ -46,49 +62,86 @@ class Edit extends Component {
     });
   }
 
-  handleSubmit() {
-     console.log("Submit",arguments);
-  }
+    handleSubmit() {
+        fetch('/api/playground', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              name:  this.state.name,
+              description: this.state.description,
+              tags: this.state.tags.map(function(v){ return v.text;}),
+              lat: this.state.lat,
+              lon: this.state.lon
+            })
+          }
+        )
+    }
 
-  render() {
-    const Map = withScriptjs(withGoogleMap(props => {
-       return <GoogleMap
-             visible={props.state.lat !== 0.0 || props.state.lon !== 0.0}
-             defaultZoom={15}
-             defaultCenter={{ lat: this.state.lat, lng: this.state.lon }}>
-                <Marker position={{ lat: this.state.lat, lng: this.state.lon }} />
-            </GoogleMap>
-    }));
+    tagAdded(tags) {
+        this.setState(Object.assign({}, this.state, {
+            tags: tags
+        }));
+    }
+
+    handleTagDelete(i) {
+        let tags = this.state.tags;
+        tags.splice(i, 1);
+        this.setState(Object.assign({}, this.state, { tags: tags }));
+    }
+
+    handleTagAddition(tag) {
+        let tags = this.state.tags;
+        tags.push({
+            id: tags.length + 1,
+            text: tag
+        });
+        this.setState(Object.assign({}, this.state, { tags: tags }));
+    }
+
+    handleTagDrag(tag, currPos, newPos) {
+        let tags = this.state.tags;
+
+        tags.splice(currPos, 1);
+        tags.splice(newPos, 0, tag);
+        this.setState(Object.assign({}, this.state, { tags: tags }));
+    }
+
+    tagSuggestionFilter(input, suggestions) {
+        let lowerCaseQuery = input.toLowerCase()
+        return suggestions.filter(function(suggestion)  {
+            return suggestion.toLowerCase().includes(lowerCaseQuery) && !this.state.tags.some(function(v){ return v.text === suggestion}.bind(this))
+        }.bind(this));
+    }
+
+    render() {
     return (
-    <div className="Edit">
-        <h3>Namn</h3>
-        <input name="name" type="text" onChange={this.handleChange.bind(this)} value={this.state.name}/>
-        <h3>Beskrivning</h3>
-        <textarea name="description" type="text" onChange={this.handleChange.bind(this)} value={this.state.description}/>
-        <h3>Taggar</h3>
-        <Select
-          name="tags"
-          className="tags"
-          arrowRenderer={null}
-          name="form-field-name"
-          multi={true}
-          value={this.state.tags.map((t) => { return {label: t, value: t};})}
-          onChange={this.handleChange.bind(this)}
-          options={[]}/>
-        <h3>Plats: {this.state.lat}, {this.state.lon}</h3>
-        <div className="Edit-Proximity">
-            <button className="Edit-Proximity button" onClick={this.useProximityToSetCoordinate.bind(this)}>Använd enhetens plats</button>
-            <h3>Eller dubbelklicka på Kartan</h3>
-            <Map className="Edit-Container-Map"
-                googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTg6SwwNWbDjc4FwAZfE4VN_AUh346tF4&v=3.exp&libraries=geometry,drawing,places"
-                loadingElement={<div style={{ height: `100%` }} />}
-                containerElement={<div style={{ height: `250px`, width: `250px` }} />}
-                mapElement={<div style={{ height: `100%` }}/>}
-                state={this.state}
-            />
+        <div className="Edit">
+            <h3>Namn</h3>
+            <input placeholder="Lekplatsens namn" className="Edit-Name" name="name" type="text" onChange={this.handleChange.bind(this)} value={this.state.name}/>
+            <h3>Beskrivning</h3>
+            <textarea placeholder="En kort men ändå sammanfattande beskrivning av lekplatsen" className="Edit-Description" name="description" type="text" onChange={this.handleChange.bind(this)} value={this.state.description}/>
+            <h3>Taggar</h3>
+            <ReactTags tags={this.state.tags}
+                       suggestions={this.state.suggestions}
+                       placeholder={"#Lägg till ny tag"}
+                       handleFilterSuggestions={this.tagSuggestionFilter.bind(this)}
+                       handleDelete={this.handleTagDelete.bind(this)}
+                       handleAddition={this.handleTagAddition.bind(this)}
+                       handleDrag={this.handleTagDrag.bind(this)} />
+            <h3>Plats: Lat {this.state.lat}, Lon {this.state.lon}</h3>
+            <div className="Edit-Proximity">
+                <button className="Edit-Proximity button" onClick={this.useProximityToSetCoordinate.bind(this)}>Använd enhetens plats</button>
+                <Map className="Edit-Container-Map"
+                      center={this.state}
+                      height='300px'
+                      width='300px'
+                      zoom={15}/>
+            </div>
+            <button className="Edit-Submit button" type="submit" onClick={this.handleSubmit.bind(this)}>Spara</button>
         </div>
-        <button className="Edit-Submit button" type="submit" onClick={this.handleSubmit.bind(this)}>Spara</button>
-    </div>
     );
   }
 }
