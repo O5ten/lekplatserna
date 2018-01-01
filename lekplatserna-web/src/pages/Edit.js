@@ -76,13 +76,11 @@ class Edit extends Component {
               lon: this.state.lon
             })
           }
-        ).then(function(res, xhr){
-            console.log(res, xhr);
-            //window.location = `/lekplats/${id}`;
-        }, function(res, xhr){
-            console.log(res, xhr);
-            //window.location = `/lekplats/${id}`;
-        })
+        ).then(function(res){
+            return res.json();
+        }).then(function(result){
+            window.location = `/lekplats/${result.id}`;
+        });
     }
 
     handleTagDelete(i) {
