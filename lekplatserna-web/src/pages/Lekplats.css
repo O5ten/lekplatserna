@@ -1,13 +1,13 @@
 .Lekplats {
-  background: #ddd;
-  padding: 8px;
-  margin: 8px;
-  color: #225522;
-  border-radius: 5px;
+    background: #ddd;
+    padding: 8px;
+    margin: 8px;
+    color: #225522;
+    border-radius: 5px;
 }
 
-.Lekplats-Conatiner {
-    display: inline-block;
+.Lekplats-Header {
+    -webkit-margin-before: 8px;
 }
 
 .Lekplats-Container-Map {

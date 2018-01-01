@@ -1,5 +1,4 @@
 .Home {
-  background: linear-gradient(#668866, #114411);
   padding: 0px 8px;
   text-align: center;
 }
@@ -16,20 +15,28 @@
 .Home-header {
   background: #ddd;
   padding: 20px;
+  border-radius: 0px 0px 5px 5px;
   color: #225522;
+  box-shadow: 3px 3px #555;
+}
+
+.Home-Header-Text {
+  -webkit-margin-before: 0em;
 }
 
 .Home-activity-resultset {
   background-color: #ddd;
+  border-radius: 5px 5px 0px 0px ;
   border-width: 1px;
   padding: 8px;
   min-height: 340px;
+  box-shadow: 3px 3px #555;
 }
 
 .Home-activity-resultset-info {
   margin: 0px;
   padding: 8px;
   border-radius: 15px;
-  background-color: #dddddd;
+  background-color: #ddd;
 }
 

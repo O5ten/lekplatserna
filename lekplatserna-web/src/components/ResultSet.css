@@ -2,3 +2,7 @@
     text-align: left;
     border-radius: 25px;
 }
+
+.ResultSet-header {
+    -webkit-margin-before: 0.42em;
+}

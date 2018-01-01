@@ -5,13 +5,19 @@
     margin-bottom: 8px;
 }
 
+ .ResultSetItem-header {
+    -webkit-margin-before: 4px;
+    -webkit-margin-after: 4px;
+}
+
 a {
     color: black;
     text-decoration: none;
 }
 
 .ResultSetItem:hover {
-    background: #aaa;
+    background: #ccc;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .ResultSetItem:active {
