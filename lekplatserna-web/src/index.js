@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Admin from './pages/Admin';
+import Login from './pages/Login';
 import Home from './pages/Home';
 import Edit from './pages/Edit';
 import About from './pages/About';
@@ -13,9 +15,10 @@ ReactDOM.render((
      <div>
         <Switch>
             //Admin Area
+            <Route path="/login" component={Login} />
             <Route path="/admin/lekplats/:id" component={Edit} />
             <Route path="/admin/lekplats" component={Edit} />
-
+            <Route path="/admin" component={Admin} />
             //Public
             <Route path="/lekplats/:id" component={Lekplats} />
             <Route path="/om" component={About} />
