@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:4567",
   "dependencies": {
+    "@okta/okta-signin-widget": "^2.3.0",
     "cross-fetch": "^1.1.1",
     "font-awesome": "^4.7.0",
     "google-maps": "^3.2.1",

@@ -42,6 +42,5 @@ class CityPath() {
                 }
             }
         }
-        println("/city")
     }
 }

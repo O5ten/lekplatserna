@@ -1,9 +1,10 @@
 .Edit {
-  background: #ddd;
-  padding: 8px;
-  margin: 8px;
-  color: #225522;
-  border-radius: 5px;
+    background: #ddd;
+    padding: 8px;
+    margin: 8px;
+    color: #225522;
+    border-radius: 5px;
+    min-height: 100%;
 }
 
 .Edit-Name:active,
@@ -30,7 +31,7 @@
 }
 
 .Edit-Submit {
-  margin: 8px 0px;
+    margin: 8px 0px;
 }
 
 .Edit-Form {

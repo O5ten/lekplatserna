@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import './About.css';
 
 class About extends Component {
 
   render() {
     return (
-      <h1>Om</h1>
+      <h1>Bakgrund</h1>
     );
   }
 }

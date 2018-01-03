@@ -1,0 +1,19 @@
+.Navigation {
+    background: linear-gradient(#644 94%, #fff 95%, #fff 100%);
+    text-align: right;
+    padding: 4px;
+}
+
+.Navigation < a {
+    color: #fff;
+}
+
+.Navigation-Link {
+    margin: 8px;
+    color: #fff;
+}
+
+.Navigation-Link:hover {
+    margin: 8px;
+    color: #ccc;
+}

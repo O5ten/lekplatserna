@@ -43,7 +43,6 @@ class SearchCity extends Component {
       });
   };
 
-
   render() {
     return (
         //https://www.npmjs.com/package/react-select

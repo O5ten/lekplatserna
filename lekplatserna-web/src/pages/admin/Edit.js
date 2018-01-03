@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Map from '../components/Map'
 import { WithContext as ReactTags } from 'react-tag-input';
-
+import Map from '../../components/Map'
+import UserProfile from '../../utils/UserProfile';
 import './Edit.css';
 
 class Edit extends Component {
 
   constructor(route){
     super();
-
+    this.user = new UserProfile();
     this.state = {
         id: route.match.params.id || 'ny',
         name: '',
@@ -67,6 +67,7 @@ class Edit extends Component {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Authorization': 'OAuth ' + this.user.getCurrentSession().session
           },
           body: JSON.stringify({
               name:  this.state.name,
@@ -81,6 +82,20 @@ class Edit extends Component {
         }).then(function(result){
             window.location = `/lekplats/${result.id}`;
         });
+    }
+
+    handleRemove(){
+        fetch(`/api/playground/${this.state.id}`, {
+              method: 'DELETE',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'OAuth ' + this.user.getCurrentSession().session
+              }
+            }
+            ).then(function(){
+                window.location = `/admin`;
+            });
     }
 
     handleTagDelete(i) {
@@ -149,7 +164,11 @@ class Edit extends Component {
                       width='300px'
                       zoom={15}/>
             </div>
-            <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this)}>Spara</button>
+            <div>
+                <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this)}>Spara</button>
+                {this.state.id !== 'ny' ? (<button className="Edit-Remove button" type="submit" onClick={this.handleRemove.bind(this)}>Ta bort</button>) : (<span/>)}
+            </div>
+
         </div>
     );
   }

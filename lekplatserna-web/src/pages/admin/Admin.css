@@ -4,6 +4,7 @@
   margin: 8px;
   color: #225522;
   border-radius: 5px;
+  min-height: 100%;
 }
 
 .Admin-Header {

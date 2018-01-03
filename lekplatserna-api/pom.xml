@@ -8,6 +8,9 @@
     <packaging>jar</packaging>
     <properties>
         <api.users></api.users>
+        <admin.emails></admin.emails>
+        <app.secret></app.secret>
+        <app.id></app.id>
         <exposePort>4567</exposePort>
         <mongodb.host>localhost</mongodb.host>
         <mongodb.port>27017</mongodb.port>
