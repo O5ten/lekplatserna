@@ -11,6 +11,7 @@
 .Navigation-Link {
     margin: 8px;
     color: #fff;
+    font-size:15px;
 }
 
 .Navigation-Link:hover {
