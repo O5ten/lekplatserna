@@ -24,8 +24,8 @@ class Home extends Component {
     return (
       <div className="Home">
         <div className="Home-header">
-            <div className="Home-Header-Text"><label><i className="fa fa-child"/> LEKPLATSERNA.SE <i className="fa fa-child"/></label></div>
-            Ett register med lekplatser för dig som behöver hitta en snabbt
+            <div className="Home-Header-Text"><i className="fa fa-child"/>LEKPLATSERNA<i className="fa fa-child"/></div>
+            <div>Ett register med lekplatser för dig som behöver hitta en snabbt</div>
         </div>
         <div className="Home-activity-area">
             <button className="Home-activity-area-proximity button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
