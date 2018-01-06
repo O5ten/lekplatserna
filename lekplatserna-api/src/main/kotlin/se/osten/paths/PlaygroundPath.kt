@@ -40,7 +40,8 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 val lon = req.params("lon").toDouble()
                 val distance = req.params("distance").toDouble()
                 val unit = req.params("unit") ?: "m"
-                val square = getSquareArea(lat, lon, distanceByUnitToMeters(distance, unit))
+                val distanceInMeters = distanceByUnitToMeters(distance, unit)
+                val square = getSquareArea(lat, lon, distanceInMeters)
                 val byLocation = Envelope(square.first, square.second)
                 val nodesWithinRange = playgroundCache.query(byLocation) as ArrayList<KdNode>
                 log(req, " ${nodesWithinRange.size} results delivered")
@@ -52,7 +53,7 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                         req.params("lon").toDouble(),
                         p.lat, p.lon))
                 }.filter{
-                    p -> p.distance < distance
+                    p -> p.distance < distanceInMeters
                 }.sortedBy{
                     it.distance
                 })
