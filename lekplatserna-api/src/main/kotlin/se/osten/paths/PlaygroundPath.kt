@@ -8,10 +8,7 @@ import org.locationtech.jts.index.kdtree.KdTree
 import se.osten.api.DAO
 import se.osten.beans.Playground
 import se.osten.beans.PlaygroundResponse
-import se.osten.utils.createGuid
-import se.osten.utils.distanceByUnitToMeters
-import se.osten.utils.getSquareArea
-import se.osten.utils.log
+import se.osten.utils.*
 import spark.Spark.*
 
 class PlaygroundPath(private val dao: DAO<Playground>) {
@@ -45,9 +42,17 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 val unit = req.params("unit") ?: "m"
                 val square = getSquareArea(lat, lon, distanceByUnitToMeters(distance, unit))
                 val byLocation = Envelope(square.first, square.second)
-                val playgroundsWithinRange = playgroundCache.query(byLocation) as ArrayList<KdNode>
-                log(req, " ${playgroundsWithinRange.size} results delivered")
-                gson.toJson(playgroundsWithinRange.map { v -> v.data })
+                val nodesWithinRange = playgroundCache.query(byLocation) as ArrayList<KdNode>
+                log(req, " ${nodesWithinRange.size} results delivered")
+                val sortedPlaygrounds = nodesWithinRange.map {
+                    n -> (n.data as Playground)
+                }.map {
+                    p -> p.copy(distance = p2pDistance(
+                        req.params("lat").toDouble(),
+                        req.params("lon").toDouble(),
+                        p.lat, p.lon))
+                }.sortedBy { it.distance }
+                gson.toJson(sortedPlaygrounds)
             }
             get("/:id") { req, res ->
                 res.type("application/json")
@@ -80,7 +85,6 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 res.type("application/json")
                 val playground: Playground = gson.fromJson(req.body(), Playground::class.java).copy(id = id)
                 log(req, " modified")
-
                 dao.update(id, playground)
                 updatePlaygroundCache()
                 gson.toJson(PlaygroundResponse(id, "modified"))

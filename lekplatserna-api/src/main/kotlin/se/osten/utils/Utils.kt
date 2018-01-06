@@ -62,7 +62,7 @@ val EARTH_X_AXIS_RAND_LENGTH_IN_METRIC_METERS = 12714000
 val EARTH_Y_AXIS_RAND_LENGTH_IN_METRIC_METERS = 12757000
 val EARTH_RADIUS_IN_METRIC_METERS = 6371000;
 
-fun distanceByUnitToMeters(distance: Double, unit: String): Double{
+fun distanceByUnitToMeters(distance: Double, unit: String): Double {
     return when (unit) {
         "m" -> distance
         "km" -> distance * 1000
@@ -73,9 +73,9 @@ fun distanceByUnitToMeters(distance: Double, unit: String): Double{
     }
 }
 
-fun getSquareArea(x: Double, y: Double, length: Double): Pair<Coordinate, Coordinate>{
-    val latitudeInRadians = 2*(x/360)*Math.PI
-    val longitudeInRadians = 2*(y/360)*Math.PI
+fun getSquareArea(x: Double, y: Double, length: Double): Pair<Coordinate, Coordinate> {
+    val latitudeInRadians = 2 * (x / 360) * Math.PI
+    val longitudeInRadians = 2 * (y / 360) * Math.PI
 
     val localEarthRadiusX = Math.cos(latitudeInRadians) * EARTH_RADIUS_IN_METRIC_METERS
     val localEarthRadiusY = Math.sin(longitudeInRadians) * EARTH_RADIUS_IN_METRIC_METERS
@@ -87,6 +87,19 @@ fun getSquareArea(x: Double, y: Double, length: Double): Pair<Coordinate, Coordi
             Coordinate(x - xdiff, y - ydiff),
             Coordinate(x + xdiff, y + ydiff)
     )
+}
+
+//Haversine
+fun p2pDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int {
+    val theta1 = Math.toRadians(lat1)
+    val theta2 = Math.toRadians(lat2)
+    val deltaTheta = Math.toRadians(lat2 - lat1)
+    val deltaLambda = Math.toRadians(lon2 - lon1)
+    val a = (Math.sin(deltaTheta / 2) * Math.sin(deltaTheta / 2)) +
+                   (Math.cos(theta1) * Math.cos(theta1) *
+                    Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2));
+    val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return (EARTH_RADIUS_IN_METRIC_METERS * c).toInt()
 }
 
 val byId = { id: String -> "{id: {${MongoOperator.eq}: '$id'}}" }

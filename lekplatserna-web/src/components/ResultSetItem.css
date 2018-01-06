@@ -5,9 +5,19 @@
     margin-bottom: 8px;
 }
 
- .ResultSetItem-header {
+.ResultSetItem-Distance {
+    float: right;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.ResultSetItem-header {
     -webkit-margin-before: 4px;
     -webkit-margin-after: 4px;
+}
+
+.ResultSetItem-tags-tag {
+    font-size: 12px;
 }
 
 a {

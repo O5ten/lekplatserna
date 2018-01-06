@@ -9,7 +9,6 @@ class Admin extends Component {
     <div className="Admin">
       <h1 className="Admin-Header">Admin area</h1>
       <div>
-        <h1>Analytics</h1>
         <h1>Approval of Suggestions</h1>
         <h1>Approval of Modifications</h1>
         <h1>User Mgmt</h1>

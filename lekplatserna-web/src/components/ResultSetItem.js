@@ -16,6 +16,7 @@ class ResultSetItem extends Component {
     return (
       <a href={"/lekplats/" + this.state.playground.id}>
         <div className="ResultSetItem">
+            <div className="ResultSetItem-Distance">{this.state.playground.distance}m</div>
             <h2 className="ResultSetItem-header">
                 {this.state.playground.name}
             </h2>
@@ -24,7 +25,7 @@ class ResultSetItem extends Component {
                 {
                     this.state.playground.tags.map((tag, i) =>
                         <div key={i} className="ResultSetItem-tags-tag tag">
-                            <i className="fa fa-tag"/>{tag}
+                            <i className="ResultSet-Item-tag-icon fa fa-tag"/>{tag}
                         </div>
                     )
                 }
