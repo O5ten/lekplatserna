@@ -44,15 +44,18 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 val byLocation = Envelope(square.first, square.second)
                 val nodesWithinRange = playgroundCache.query(byLocation) as ArrayList<KdNode>
                 log(req, " ${nodesWithinRange.size} results delivered")
-                val sortedPlaygrounds = nodesWithinRange.map {
+                gson.toJson(nodesWithinRange.map {
                     n -> (n.data as Playground)
                 }.map {
                     p -> p.copy(distance = p2pDistance(
                         req.params("lat").toDouble(),
                         req.params("lon").toDouble(),
                         p.lat, p.lon))
-                }.sortedBy { it.distance }
-                gson.toJson(sortedPlaygrounds)
+                }.filter{
+                    p -> p.distance < distance
+                }.sortedBy{
+                    it.distance
+                })
             }
             get("/:id") { req, res ->
                 res.type("application/json")
