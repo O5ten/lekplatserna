@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+
 import UserProfile from '../utils/UserProfile';
+import AuthService from '../services/AuthService';
 
 import './Login.css';
 
@@ -8,50 +10,39 @@ class Login extends Component {
 
   constructor(){
     super();
-    this.user = new UserProfile();
   }
 
   componentWillMount(){
+    let session = UserProfile.getCurrentSession();
     if(this.props.location.pathname === '/logout'){
         this.logout();
-    }else if(this.user.getCurrentSession()){
-        this.validateSession(this.user.getCurrentSession());
+    }else if(session ){
+        this.validateSession(session);
     }
   }
 
   validateSession(session){
-    return fetch("/api/auth", {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(session)
-      }
-    ).then(function(result){
-        if(result.status < 202){
-            return result.json().then( function(auth) {
-                this.user.setCurrentSession(auth);
-                this.props.history.push(this.props.location.state ? this.props.location.state.referrer : '/')
-                window.location.reload();
-            }.bind(this));
-        }
+    AuthService.validateSession(session).then(function(auth){
+        UserProfile.setCurrentSession(auth);
+        this.props.history.push(this.props.location.state ? this.props.location.state.referrer : '/')
+        window.location.reload();
     }.bind(this));
   }
 
   logout(){
-      this.user.destroyCurrentSession();
+      UserProfile.destroyCurrentSession();
       this.props.history.push('/');
       window.location.reload();
   }
 
   render() {
-    if(!this.user.getCurrentSession()){
+    if(!UserProfile.getCurrentSession()){
         return (
             <div className="Login">
                 <h1 className="Login-Header">Sign In</h1>
                 <FacebookLogin
-                    appId="749047118627008"
+                    appId="137557696939525"
+                    isMobile={false}
                     fields="name,email"
                     icon="fa-facebook"
                     callback={this.validateSession.bind(this)} />
@@ -60,7 +51,7 @@ class Login extends Component {
     }else{
         return (<div className="Login">
                    <h1 className="Login-Header">Login</h1>
-                   <div className="Login-Message">{this.user.getCurrentSession().name} is logged in </div>
+                   <div className="Login-Message">{UserProfile.getCurrentSession().name} is logged in </div>
                    <button className="button" onClick={this.logout.bind(this)}>Logout</button>
                </div>);
     }

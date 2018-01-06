@@ -4,14 +4,13 @@ import { withScriptjs } from 'react-google-maps';
 import { Link } from 'react-router-dom'
 
 import UserProfile from '../utils/UserProfile';
+import PlaygroundService from '../services/PlaygroundService';
 
 import './Lekplats.css';
-
 class Lekplats extends Component {
 
   constructor(route){
     super();
-    this.user = new UserProfile();
     this.state = {
       user: JSON.parse(localStorage.getItem('LekplatsernaUserProfile')),
       playground: {
@@ -23,14 +22,14 @@ class Lekplats extends Component {
         tags: []
       }
     };
+  }
+
+  componentDidMount(){
     this.fetchPlayground();
   }
 
   fetchPlayground() {
-      return fetch(`/api/playground/${this.state.playground.id}`)
-        .then((response) => {
-          return response.json();
-        }).then((playground) => {
+      return PlaygroundService.fetchPlaygroundById(this.state.playground.id).then((playground) => {
           this.setState(Object.assign({}, this.state, {
             playground: playground
           }));
@@ -47,7 +46,7 @@ class Lekplats extends Component {
     }));
     return (
     <div className="Lekplats">
-          {this.user.getCurrentSession() && this.user.getCurrentSession().role === 'admin' ? (<div className="Lekplats-Edit"><Link to={'/admin' + this.props.location.pathname}><i className="fa fa-edit"/></Link></div>) : (<span/>)}
+          {UserProfile.isAdmin() ? (<div className="Lekplats-Edit"><Link to={'/admin' + this.props.location.pathname}><i className="fa fa-edit"/></Link></div>) : (<span/>)}
           <h1 className="Lekplats-Header">{this.state.playground.name}</h1>
            <div className="Lekplats-Tags tag-container">
                {this.state.playground.tags.map((tag, i) => {

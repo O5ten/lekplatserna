@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
-import Map from '../../components/Map'
+import Map from '../../components/Map';
+
+import PlaygroundService from '../../services/PlaygroundService';
 import UserProfile from '../../utils/UserProfile';
+
 import './Edit.css';
 
 class Edit extends Component {
 
   constructor(route){
     super();
-    this.user = new UserProfile();
     this.state = {
         id: route.match.params.id || 'ny',
         name: '',
@@ -25,25 +27,16 @@ class Edit extends Component {
   }
 
   fetchPlayground() {
-    return fetch(`/api/playground/${this.state.id}`)
-        .then((response) => {
-          return response.json();
-        }).then((playground) => {
-          playground.tags = playground.tags.map((tag, ix) => {return {text: tag, i: ix}});
-          this.setState(Object.assign({}, this.state, playground));
-        });
+    return PlaygroundService.fetchPlaygroundById(this.state.id).then((playground) => {
+        playground.tags = playground.tags.map((tag, ix) => {return {text: tag, i: ix}});
+        this.setState(Object.assign({}, this.state, playground));
+    });
   }
 
   fetchTags(){
-    return fetch(`/api/tag`)
-        .then((response) => {
-            return response.json();
-        }).then((tags) => {
-            let suggestions = tags.map((t) => {
-                return t.tag;
-            });
-            this.setState(Object.assign({}, this.state, { suggestions: suggestions }));
-        });
+    return PlaygroundService.fetchTags().then((tags) => {
+        this.setState(Object.assign({}, this.state, { suggestions: tags.map(t => t.tag) }));
+    });
   }
 
   handleChange(event) {
@@ -62,40 +55,18 @@ class Edit extends Component {
   }
 
   handleSave() {
-      fetch('/api/playground' + (this.state.id === 'ny' ? '' : `/${this.state.id}`), {
-          method: this.state.id === 'ny' ? 'POST' : 'PUT',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'OAuth ' + this.user.getCurrentSession().session
-          },
-          body: JSON.stringify({
-              name:  this.state.name,
-              description: this.state.description,
-              tags: this.state.tags.map(v => v.text),
-              lat: this.state.lat,
-              lon: this.state.lon
-            })
-          }
-        ).then(function(res){
-            return res.json();
-        }).then(function(result){
-            window.location = `/lekplats/${result.id}`;
+      PlaygroundService.persistPlayground({
+          id: this.state.id,
+          name:  this.state.name,
+          description: this.state.description,
+          tags: this.state.tags.map(v => v.text),
+          lat: this.state.lat,
+          lon: this.state.lon
         });
     }
 
     handleRemove(){
-        fetch(`/api/playground/${this.state.id}`, {
-              method: 'DELETE',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'OAuth ' + this.user.getCurrentSession().session
-              }
-            }
-            ).then(function(){
-                window.location = `/admin`;
-            });
+        PlaygroundService.removePlaygroundById(this.state.id);
     }
 
     handleTagDelete(i) {

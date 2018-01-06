@@ -16,14 +16,13 @@ class Routes extends Component {
 
     constructor(){
       super();
-      this.user = new UserProfile();
       this.state = {
         user: null
       };
     }
 
     requireAuth(Page, state){
-        return this.user.getCurrentSession() ? (
+        return UserProfile.getCurrentSession() ? (
                 <Page {...state}/>
                ) : (
                 <Redirect to={{
@@ -39,10 +38,10 @@ class Routes extends Component {
              <div>
                  <div className="Navigation">
                     <Link className="Navigation-Link" to="/"><i className="fa fa-home"/></Link>
-                    {this.user.getCurrentSession() && this.user.getCurrentSession().role === 'admin' ? (<Link className="Navigation-Link" to="/admin/lekplats"><i className="fa fa-plus-circle"/></Link>) : (<span/>)}
-                    {this.user.getCurrentSession() && this.user.getCurrentSession().role === 'admin' ? (<Link className="Navigation-Link" to="/admin"><i className="fa fa-cog"/></Link>) : (<span/>)}
-                    {this.user.getCurrentSession() ?
-                        (<Link className="Navigation-Link" to="/logout">{this.user.getCurrentSession().name} <i className="fa fa-sign-out"/></Link>) :
+                    {UserProfile.isAdmin() ? (<Link className="Navigation-Link" to="/admin/lekplats"><i className="fa fa-plus-circle"/></Link>) : (<span/>)}
+                    {UserProfile.isAdmin() ? (<Link className="Navigation-Link" to="/admin"><i className="fa fa-cog"/></Link>) : (<span/>)}
+                    {UserProfile.getCurrentSession() ?
+                        (<Link className="Navigation-Link" to="/logout">{UserProfile.getCurrentSession().name} <i className="fa fa-sign-out"/></Link>) :
                         (<Link className="Navigation-Link" to="/login"><i className="fa fa-sign-in"/></Link>)}
                  </div>
                  <Switch>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ResultSet.css';
 import ResultSetItem from './ResultSetItem';
-
+import PlaygroundService from '../services/PlaygroundService';
 class ResultSet extends Component {
 
   constructor() {
@@ -32,34 +32,24 @@ class ResultSet extends Component {
   }
 
   fetchEntriesByCoordinates(location) {
-    if(location){
-        fetch(`/api/playground/at/${location.lat}/${location.lon}/within/1/km`)
-            .then((response) => {
-              return response.json();
-            }).then((playgrounds) => {
-              this.setState(Object.assign({}, this.state, {
-                message: "Lekplatser inom en kilometer från dig (" + playgrounds.length + " stycken)",
-                playgrounds: playgrounds
-              }));
-              this.scrollToResultSet();
-            });
-    }
+    return PlaygroundService.fetchPlaygroundsByLocation(location, 1, 'km').then((playgrounds) => {
+          this.setState(Object.assign({}, this.state, {
+            message: "Lekplatser inom en kilometer från dig (" + playgrounds.length + " stycken)",
+            playgrounds: playgrounds
+          }));
+          this.scrollToResultSet();
+        });
   }
 
   fetchEntriesByCity(city) {
-    if(city){
-        fetch(`/api/playground/at/${city.lat}/${city.lon}/within/3/km`)
-            .then((response) => {
-              return response.json();
-            }).then((playgrounds) => {
-              this.setState(Object.assign({}, this.state, {
-                message: "Lekplatser i närheten av " + city.label + "(" + playgrounds.length + " stycken)",
-                playgrounds: playgrounds
-              }));
-              this.scrollToResultSet();
-            });
+        return PlaygroundService.fetchPlaygroundsByLocation(city, 2, 'km').then((playgrounds) => {
+          this.setState(Object.assign({}, this.state, {
+            message: "Lekplatser i närheten av " + city.label + "(" + playgrounds.length + " stycken)",
+            playgrounds: playgrounds
+          }));
+          this.scrollToResultSet();
+        });
     }
-  }
 
   render() {
     return (

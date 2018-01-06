@@ -3,6 +3,7 @@ import './SearchCity.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import debounce from 'throttle-debounce/debounce';
+import CityService from '../services/CityService';
 
 class SearchCity extends Component {
 
@@ -32,10 +33,7 @@ class SearchCity extends Component {
       this.setState(Object.assign({}, this.state, {
         isLoading: true
       }));
-      return fetch(`/api/city/${keyword}`)
-        .then((response) => {
-          return response.json();
-        }).then((cities) => {
+      return CityService.fetchCitiesByKeyword(keyword).then((cities) => {
           this.setState(Object.assign({}, this.state, {
             cities: cities,
             isLoading: false
