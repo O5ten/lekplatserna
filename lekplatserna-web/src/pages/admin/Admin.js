@@ -5,11 +5,15 @@ import './Admin.css';
 class Admin extends Component {
 
   render() {
-    //TODO loop through playgrounds that are scheduled to be enabled.
     return (
     <div className="Admin">
       <h1 className="Admin-Header">Admin area</h1>
-      <Link to="/admin/lekplats"><i className="fa fa-circle-plus"/></Link>
+      <div>
+        <h1>Analytics</h1>
+        <h1>Approval of Suggestions</h1>
+        <h1>Approval of Modifications</h1>
+        <h1>User Mgmt</h1>
+      </div>
     </div>
     );
   }

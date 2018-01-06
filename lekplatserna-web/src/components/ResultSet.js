@@ -33,12 +33,12 @@ class ResultSet extends Component {
 
   fetchEntriesByCoordinates(location) {
     if(location){
-        fetch(`/api/playground/at/${location.lat}/${location.lon}/within/2/km`)
+        fetch(`/api/playground/at/${location.lat}/${location.lon}/within/1/km`)
             .then((response) => {
               return response.json();
             }).then((playgrounds) => {
               this.setState(Object.assign({}, this.state, {
-                message: "Lekplatser i närheten av dig (" + playgrounds.length + " stycken)",
+                message: "Lekplatser inom en kilometer från dig (" + playgrounds.length + " stycken)",
                 playgrounds: playgrounds
               }));
               this.scrollToResultSet();
@@ -48,7 +48,7 @@ class ResultSet extends Component {
 
   fetchEntriesByCity(city) {
     if(city){
-        fetch(`/api/playground/at/${city.lat}/${city.lon}/within/2/km`)
+        fetch(`/api/playground/at/${city.lat}/${city.lon}/within/3/km`)
             .then((response) => {
               return response.json();
             }).then((playgrounds) => {
