@@ -18,9 +18,14 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
 
     val gson = Gson()
     //https://locationtech.github.io/jts/javadoc/org/locationtech/jts/index/kdtree/KdTree.html
-    val playgroundCache = KdTree()
+    var playgroundCache = KdTree()
 
     init {
+        updatePlaygroundCache()
+    }
+
+    fun updatePlaygroundCache() {
+        playgroundCache = KdTree()
         dao.findAll().forEach { playground ->
             playgroundCache.insert(
                     Coordinate(playground.lat, playground.lon),
@@ -77,6 +82,7 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 log(req, " modified")
 
                 dao.update(id, playground)
+                updatePlaygroundCache()
                 gson.toJson(PlaygroundResponse(id, "modified"))
             }
 
@@ -85,6 +91,7 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 res.type("application/json")
                 log(req, " removed")
                 dao.delete(id)
+                updatePlaygroundCache()
                 gson.toJson(PlaygroundResponse(id, "removed"))
             }
         }

@@ -15,7 +15,7 @@ class Home extends Component {
         lat: location.coords.latitude
     });
   }
-
+  
   onCitySeleted(citySelected) {
     this.refs.resultSet.fetchEntriesByCity(citySelected);
   }
@@ -24,7 +24,7 @@ class Home extends Component {
     return (
       <div className="Home">
         <div className="Home-header">
-            <h1 className="Home-Header-Text">Lekplatserna</h1>
+            <div className="Home-Header-Text"><label><i className="fa fa-child"/> LEKPLATSERNA.SE <i className="fa fa-child"/></label></div>
             Ett register med lekplatser för dig som behöver hitta en snabbt
         </div>
         <div className="Home-activity-area">

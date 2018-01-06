@@ -54,13 +54,12 @@ class Map extends Component{
           <div style={{ width: `100%` }} />
         }
         mapElement={
-          <div style={{ height: this.props.height, width: this.props.width }} />
+          <div style={{ minHeight: this.props.height, width: this.props.width }} />
         }
       />
     }else{
       map = <div style={{height: `0px`}} />
     }
-    console.log(map);
     return(map)
   }
 }

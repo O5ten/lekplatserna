@@ -1,7 +1,7 @@
 .Home {
-  padding: 0px 8px;
-  text-align: center;
-  height: 100%;
+    padding: 0px 8px;
+    text-align: center;
+    min-height: 100%;
 }
 
 .Home-activity-area {
@@ -15,22 +15,23 @@
 
 .Home-header {
   background: #ddd;
-  padding: 20px;
+  padding: 16px;
   border-radius: 0px 0px 5px 5px;
   color: #225522;
   box-shadow: 3px 3px #555;
 }
 
 .Home-Header-Text {
-  -webkit-margin-before: 0em;
+    font-size: 40px;
+    margin: 0px 0px 8px 0px;
 }
 
 .Home-activity-resultset {
   background-color: #ddd;
-  border-radius: 5px 5px 0px 0px ;
+  border-radius: 5px;
+  min-height: 150px;
   border-width: 1px;
   padding: 8px;
-  min-height: 340px;
   box-shadow: 3px 3px #555;
 }
 
