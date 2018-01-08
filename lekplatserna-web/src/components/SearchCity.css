@@ -1,5 +1,7 @@
-.SearchCity {
-    width: 200px;
-    height: 34.22px;
+.SearchCity, .Select-placeholder {
+    width: 220px;
+    height: 40px;
+    color: black;
+    font-weight: bold;
 }
 

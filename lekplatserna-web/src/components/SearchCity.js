@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import './SearchCity.css';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+
 import debounce from 'throttle-debounce/debounce';
 import CityService from '../services/CityService';
+
+import 'react-select/dist/react-select.css';
+import './SearchCity.css';
 
 class SearchCity extends Component {
 
