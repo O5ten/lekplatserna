@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import PlaygroundService from './services/PlaygroundService';
+
 import './Admin.css';
 
 class Admin extends Component {
@@ -10,6 +13,7 @@ class Admin extends Component {
       <h1 className="Admin-Header">Admin area</h1>
       <div>
         <h1>Approval of Suggestions</h1>
+
         <h1>Approval of Modifications</h1>
         <h1>User Mgmt</h1>
       </div>

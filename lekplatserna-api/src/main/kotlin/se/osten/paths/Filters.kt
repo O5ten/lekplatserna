@@ -5,7 +5,7 @@ import se.osten.beans.User
 import spark.Spark.before
 import spark.Spark.halt
 
-class Filters(private val admins: List<User>, private val sessions: Map<String, Auth>, private val allowedHost: String) {
+class Filters(private val adminList: List<User>, private val sessions: Map<String, Auth>, private val allowedHost: String) {
 
     fun enableAuthentication() {
         before("/*") { req, res ->
@@ -14,11 +14,11 @@ class Filters(private val admins: List<User>, private val sessions: Map<String, 
                 //Authentication broken right now
                 val session = authHeader.split(" ")[1];
                 val auth: Auth? = sessions.get(session)
-                if (auth == null || admins.all { it.email != auth.email }) {
+                if (auth == null || adminList.all { it.email != auth.email }) {
                     halt(401, "You are not a valid user")
                 }
             } else if (req.requestMethod().equals("GET") && req.headers("Host").startsWith(allowedHost)) {
-                //GET is always allowed from the place it is running from.
+                //GET is always allowed from the place this site is running from.
             } else if (req.requestMethod().equals("POST") && req.pathInfo().startsWith("/api/auth") && req.headers("Host").startsWith(allowedHost)){
                 //Must start authenticating somewhere
             } else {

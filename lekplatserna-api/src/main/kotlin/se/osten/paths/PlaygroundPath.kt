@@ -11,7 +11,7 @@ import se.osten.beans.PlaygroundResponse
 import se.osten.utils.*
 import spark.Spark.*
 
-class PlaygroundPath(private val dao: DAO<Playground>) {
+class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPath: String = "") {
 
     val gson = Gson()
     //https://locationtech.github.io/jts/javadoc/org/locationtech/jts/index/kdtree/KdTree.html
@@ -32,8 +32,8 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
     }
 
     fun start() {
-        println("/api/playground")
-        path("/playground") {
+        println("/api/playground${additionalPath}")
+        path("/playground${additionalPath}") {
             get("/at/:lat/:lon/within/:distance/:unit") { req, res ->
                 res.type("application/json")
                 val lat = req.params("lat").toDouble()
@@ -57,6 +57,12 @@ class PlaygroundPath(private val dao: DAO<Playground>) {
                 }.sortedBy{
                     it.distance
                 })
+            }
+            if(additionalPath.length > 0){
+                get("/"){ req, res ->
+                    res.type("application/json")
+                    gson.toJson(dao.findAll())
+                }
             }
             get("/:id") { req, res ->
                 res.type("application/json")

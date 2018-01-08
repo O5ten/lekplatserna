@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class Playground(
         val id: String,
-        @SerializedName("distance") val distance: Int = -1, //Calculated value at request-time -1 when not applicable
+        @SerializedName("distance") val distance: Int = -1,
         @SerializedName("name") val name: String = "",
         @SerializedName("description") val description: String = "",
         @SerializedName("lat") val lat: Double = 0.0,

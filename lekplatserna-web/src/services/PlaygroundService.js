@@ -25,6 +25,56 @@ class PlaygroundService {
             });
     }
 
+    static fetchModifications(){
+        if(!id){
+            return Promise.reject(new Error('id must be provided to fetch motifications'));
+        }
+        return fetch(`/api/playground/modification/`)
+            .then((response) => {
+                return response.json();
+            });
+    }
+
+    static fetchModification(id){
+        if(!id){
+            return Promise.reject(new Error('id must be provided to fetch suggested modification to playground'));
+        }
+        return fetch(`/api/playground/modification/${id}`)
+            .then((response) => {
+                return response.json();
+            });
+    }
+
+    static fetchSuggestions(){
+        if(!id){
+            return Promise.reject(new Error('id must be provided to fetch suggested playgrounds'));
+        }
+        return fetch(`/api/playground/suggestion/`)
+            .then((response) => {
+                return response.json();
+            });
+    }
+
+    static fetchSuggestion(id){
+        if(!id){
+            return Promise.reject(new Error('id must be provided to fetch playground'));
+        }
+        return fetch(`/api/playground/suggestion/${id}`)
+            .then((response) => {
+                return response.json();
+            });
+    }
+
+     static fetchModifications(id){
+        if(!id){
+            return Promise.reject(new Error('id must be provided to fetch playground'));
+        }
+        return fetch(`/api/playground/${id}`)
+            .then((response) => {
+                return response.json();
+            });
+     }
+
     static fetchTags(){
         return fetch(`/api/tag`)
             .then((response) => {

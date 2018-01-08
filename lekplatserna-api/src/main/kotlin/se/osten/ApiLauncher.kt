@@ -39,8 +39,12 @@ fun main(args: Array<String>) {
             res.body("Lekplatserna API")
         }
         val entityDao = MongoPlaygroundDAO(dbConn, "playground");
+        val modificationDao = MongoPlaygroundDAO(dbConn, "modification");
+        val suggestionDao = MongoPlaygroundDAO(dbConn, "suggestion");
 
         PlaygroundPath(entityDao).start()
+        PlaygroundPath(modificationDao, "/modification").start()
+        PlaygroundPath(suggestionDao, "/suggestion").start()
         TagPath(MongoTagView(dbConn)).start()
         CityPath().start()
         AuthPath(admins, sessions, appSecret, appId).start()
