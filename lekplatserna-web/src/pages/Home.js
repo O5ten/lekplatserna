@@ -2,24 +2,38 @@ import React, { Component } from 'react';
 import './Home.css';
 import ResultSet from '../components/ResultSet';
 import SearchCity from '../components/SearchCity';
+import PlaygroundService from '../services/PlaygroundService';
 
 class Home extends Component {
 
-  findPlaygroundsInProximity() {
-    return navigator.geolocation.getCurrentPosition(this.renderResultSet.bind(this));
+  constructor(){
+    super();
+    this.state = {
+        locationSelected: false,
+        playgrounds: [],
+        message: ""
+    }
   }
 
-  renderResultSet(location) {
-    this.refs.resultSet.fetchEntriesByCoordinates({
-        lon: location.coords.longitude,
-        lat: location.coords.latitude
-    });
+  findPlaygroundsInProximity() {
+    return navigator.geolocation.getCurrentPosition(this.fetchPlaygroundsByLocation.bind(this));
+  }
+
+  fetchPlaygroundsByLocation(location) {
+    if(location){
+        PlaygroundService.fetchPlaygroundsByLocation({
+            lon: location.lon || location.coords.longitude,
+            lat: location.lat || location.coords.latitude
+        }).then((playgrounds) => this.setState({
+            locationSelected: true,
+            playgrounds: playgrounds,
+            message: !!location.lon ?
+            `Lekplatser i ${location.label} (${playgrounds.length} stycken)`:
+            `Lekplatser nära dig (${playgrounds.length} stycken)`
+        }));
+    }
   }
   
-  onCitySeleted(citySelected) {
-    this.refs.resultSet.fetchEntriesByCity(citySelected);
-  }
-
   render() {
     return (
       <div className="Home">
@@ -31,15 +45,14 @@ class Home extends Component {
             <button className="Home-activity-area-proximity button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
             <p className="Home-activity-area-or">eller</p>
             <center>
-                <SearchCity
-                    className="Home-activity-area-search"
-                    onCitySelected={this.onCitySeleted.bind(this)}
-                />
+                <SearchCity className="Home-activity-area-search" onCitySelected={this.fetchPlaygroundsByLocation.bind(this)} />
             </center>
         </div>
-        <div className="Home-activity-resultset">
-            <ResultSet ref="resultSet"/>
-        </div>
+        { this.state.locationSelected &&
+            (<div className="Home-activity-resultset">
+                <ResultSet message={this.state.message} playgrounds={this.state.playgrounds}/>
+            </div>)
+        }
       </div>
     );
   }

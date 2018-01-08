@@ -4,11 +4,9 @@ import ResultSetItem from './ResultSetItem';
 import PlaygroundService from '../services/PlaygroundService';
 class ResultSet extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      message: '',
-      playgrounds: []
+  componentDidMount(){
+    if(this.props.playgrounds.length > 0){
+      this.scrollToResultSet();
     }
   }
 
@@ -31,34 +29,14 @@ class ResultSet extends Component {
       window.requestAnimationFrame(step);
   }
 
-  fetchEntriesByCoordinates(location) {
-    return PlaygroundService.fetchPlaygroundsByLocation(location, 1, 'km').then((playgrounds) => {
-          this.setState(Object.assign({}, this.state, {
-            message: "Lekplatser inom en kilometer från dig (" + playgrounds.length + " stycken)",
-            playgrounds: playgrounds
-          }));
-          this.scrollToResultSet();
-        });
-  }
-
-  fetchEntriesByCity(city) {
-        return PlaygroundService.fetchPlaygroundsByLocation(city, 2, 'km').then((playgrounds) => {
-          this.setState(Object.assign({}, this.state, {
-            message: "Lekplatser i närheten av " + city.label + "(" + playgrounds.length + " stycken)",
-            playgrounds: playgrounds
-          }));
-          this.scrollToResultSet();
-        });
-    }
-
   render() {
     return (
       <div className="ResultSet">
-        <h2 className="ResultSet-header">{this.state.message}</h2>
+        <h2 className="ResultSet-header">{this.props.message}</h2>
         <div className="ResultSet-list">
             {
-                this.state.playgrounds.map(function(playground, i){
-                    return <ResultSetItem playground={playground} key={i}/>;
+                this.props.playgrounds.map(function(playground){
+                    return <ResultSetItem playground={playground} key={playground.name}/>;
                 })
             }
         </div>
