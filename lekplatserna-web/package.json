@@ -18,6 +18,7 @@
     "react-scripts": "1.0.10",
     "react-select": "^1.1.0",
     "react-selectize": "2.1.0",
+    "react-table": "^6.7.6",
     "react-tag-input": "^4.7.2",
     "throttle-debounce": "^1.0.1"
   },

@@ -10,3 +10,7 @@
 .Admin-Header {
     -webkit-margin-before: 0em;
 }
+
+.Admin-Data-Counter {
+    padding: 8px;
+}

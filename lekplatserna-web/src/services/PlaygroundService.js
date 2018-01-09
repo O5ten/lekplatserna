@@ -26,54 +26,41 @@ class PlaygroundService {
     }
 
     static fetchModifications(){
-        if(!id){
-            return Promise.reject(new Error('id must be provided to fetch motifications'));
-        }
-        return fetch(`/api/playground/modification/`)
-            .then((response) => {
+        return fetch(`/api/playground/modification/`, UserProfile.authOptions()).then((response) => {
                 return response.json();
             });
     }
 
-    static fetchModification(id){
+    static fetchModificationById(id){
         if(!id){
             return Promise.reject(new Error('id must be provided to fetch suggested modification to playground'));
         }
-        return fetch(`/api/playground/modification/${id}`)
-            .then((response) => {
-                return response.json();
-            });
+        return fetch(`/api/playground/modification/${id}`, UserProfile.authOptions()).then((response) => {
+            return response.json();
+        });
     }
 
     static fetchSuggestions(){
-        if(!id){
-            return Promise.reject(new Error('id must be provided to fetch suggested playgrounds'));
-        }
-        return fetch(`/api/playground/suggestion/`)
-            .then((response) => {
-                return response.json();
-            });
+        return fetch(`/api/playground/suggestion/`, UserProfile.authOptions()).then((response) => {
+            return response.json();
+        });
     }
 
-    static fetchSuggestion(id){
+
+    static fetchPlaygroundsCount(){
+        return fetch(`/api/playground/`, UserProfile.authOptions()).then((response) => {
+            return response.json();
+        });
+    }
+
+    static fetchSuggestionById(id){
         if(!id){
             return Promise.reject(new Error('id must be provided to fetch playground'));
         }
-        return fetch(`/api/playground/suggestion/${id}`)
-            .then((response) => {
+        return fetch(`/api/playground/suggestion/${id}`, UserProfile.authOptions()).then((response) => {
                 return response.json();
             });
     }
-
-     static fetchModifications(id){
-        if(!id){
-            return Promise.reject(new Error('id must be provided to fetch playground'));
-        }
-        return fetch(`/api/playground/${id}`)
-            .then((response) => {
-                return response.json();
-            });
-     }
 
     static fetchTags(){
         return fetch(`/api/tag`)
@@ -83,33 +70,23 @@ class PlaygroundService {
     }
 
     static persistPlayground(playground){
-        return fetch('/api/playground' + (playground.id === 'ny' ? '' : `/${playground.id}`), {
-          method: playground.id === 'ny' ? 'POST' : 'PUT',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'OAuth ' + UserProfile.getCurrentSession().session
-          },
-          body: JSON.stringify(playground)
-          }
-        ).then(function(res){
+        return fetch('/api/playground' + (playground.id === 'ny' ? '' : `/${playground.id}`),
+        UserProfile.authOptions(playground.id === 'ny' ? 'POST' : 'PUT', playground)).then(function(res){
             return res.json();
-        }).then(function(result){
-            window.location = `/lekplats/${result.id}`;
         });
     }
 
     static removePlaygroundById(id){
         return fetch(`/api/playground/${id}`, {
-                  method: 'DELETE',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'OAuth ' + UserProfile.getCurrentSession().session
-                  }
-                }).then(function(){
-                    window.location = `/admin`;
-                });
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'OAuth ' + UserProfile.getCurrentSession().session
+          }
+        }).then(function(){
+            window.location = `/admin`;
+        });
     }
 }
 

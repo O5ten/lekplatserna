@@ -41,7 +41,7 @@ class Login extends Component {
             <div className="Login">
                 <h1 className="Login-Header">Sign In</h1>
                 <FacebookLogin
-                    appId="749047118627008"
+                    appId="137557696939525"
                     isMobile={false}
                     fields="name,email"
                     icon="fa-facebook"

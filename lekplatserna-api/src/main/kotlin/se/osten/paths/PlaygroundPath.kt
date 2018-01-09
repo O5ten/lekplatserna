@@ -58,10 +58,15 @@ class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPat
                     it.distance
                 })
             }
-            if(additionalPath.length > 0){
-                get("/"){ req, res ->
-                    res.type("application/json")
-                    gson.toJson(dao.findAll())
+            get("/"){ req, res ->
+                res.type("application/json");
+                if(req.queryParams("count") != null){
+                    log(req, " counted playgrounds " + dao.count())
+                    "{\nlength: ${dao.count()}\n}"
+                }else{
+                    val items = dao.findAll()
+                    log(req, " ${items.size} results delivered")
+                    gson.toJson(items)
                 }
             }
             get("/:id") { req, res ->

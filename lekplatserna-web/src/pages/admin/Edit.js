@@ -3,7 +3,6 @@ import { WithContext as ReactTags } from 'react-tag-input';
 import Map from '../../components/Map';
 
 import PlaygroundService from '../../services/PlaygroundService';
-import UserProfile from '../../utils/UserProfile';
 
 import './Edit.css';
 
@@ -54,7 +53,7 @@ class Edit extends Component {
     });
   }
 
-  handleSave() {
+  handleSave(shouldCreateAnother) {
       PlaygroundService.persistPlayground({
           id: this.state.id,
           name:  this.state.name,
@@ -62,7 +61,13 @@ class Edit extends Component {
           tags: this.state.tags.map(v => v.text),
           lat: this.state.lat,
           lon: this.state.lon
-        });
+        }).then(function(){
+            if(shouldCreateAnother){
+                window.location.reload();
+            } else {
+                window.location = `/lekplats/${this.state.id}`;
+            }
+        }.bind(this));
     }
 
     handleRemove(){
@@ -136,8 +141,9 @@ class Edit extends Component {
                       zoom={15}/>
             </div>
             <div>
-                <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this)}>Spara</button>
-                {this.state.id !== 'ny' ? (<button className="Edit-Remove button" type="submit" onClick={this.handleRemove.bind(this)}>Ta bort</button>) : (<span/>)}
+                <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this, false)}>Spara</button>
+                <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this, true)}>Spara och skapa en ny</button>
+                {this.state.id !== 'ny' && (<button className="Edit-Remove button" type="submit" onClick={this.handleRemove.bind(this)}>Ta bort</button>)}
             </div>
 
         </div>

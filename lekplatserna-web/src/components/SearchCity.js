@@ -24,7 +24,7 @@ class SearchCity extends Component {
     this.setState(Object.assign({}, this.state, {
         selectedOption: selectedOption,
         cities: []
-    }))
+    }));
     this.props.onCitySelected(selectedOption);
   }
 
