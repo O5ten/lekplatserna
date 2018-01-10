@@ -61,11 +61,11 @@ class Edit extends Component {
           tags: this.state.tags.map(v => v.text),
           lat: this.state.lat,
           lon: this.state.lon
-        }).then(function(){
+        }).then(function(playground){
             if(shouldCreateAnother){
                 window.location.reload();
-            } else {
-                window.location = `/lekplats/${this.state.id}`;
+            }else{
+                this.props.history.push('/lekplats/' + (playground.id ? playground.id : playground[0].id));
             }
         }.bind(this));
     }
@@ -136,9 +136,10 @@ class Edit extends Component {
                 <Map className="Edit-Proximity-Container-Map"
                       center={this.state}
                       mapCenterMoved={this.mapCenterMoved.bind(this)}
-                      height='300px'
-                      width='300px'
-                      zoom={15}/>
+                      height='400px'
+                      width='400px'
+                      zoom={15}
+                      playgrounds={[]}/>
             </div>
             <div>
                 <button className="Edit-Submit button" type="submit" onClick={this.handleSave.bind(this, false)}>Spara</button>

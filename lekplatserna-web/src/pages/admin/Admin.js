@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { withGoogleMap, MarkerWithLabel, GoogleMap } from 'react-google-maps';
-import { withScriptjs } from 'react-google-maps';
+import Map from '../../components/Map';
+
 import 'react-table/react-table.css'
 import ReactTable from 'react-table'
+import './Admin.css';
 
 import PlaygroundService from '../../services/PlaygroundService';
-
-import './Admin.css';
 
 class Admin extends Component {
 
   constructor(){
     super();
     this.state = {
-        playgrounds: {count: 0},
+        playgrounds: [],
         suggestions: [],
         modifications: [],
         tags: []
@@ -43,22 +41,7 @@ class Admin extends Component {
     }.bind(this));
   }
 
-/*Currently broken, next thing to resolve.
-<MyMapComponent className="Lekplats-Container-Map"
-            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTg6SwwNWbDjc4FwAZfE4VN_AUh346tF4&v=3.exp&libraries=geometry,drawing,places"
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `400px` }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-        />
-*/
   render() {
-      const MyMapComponent = withScriptjs(withGoogleMap(props => {
-        return (<GoogleMap
-                   defaultZoom={8}
-                   defaultCenter={{ lat: 56.0, lng: 14.0 }}>
-                   {this.state.playgrounds.map((playground) => { (<MarkerWithLabel label={playground.name} position={{ lat: playground.lat, lng: playground.lon }}/>) })}
-               </GoogleMap>)
-      }));
     return (
     <div className="Admin">
       <h1 className="Admin-Header">Statistik</h1>
@@ -77,10 +60,19 @@ class Admin extends Component {
                 <i className="fa fa-tags"/> {this.state.tags.length} tags
             </div>
         </div>
-        <h1>Playgrounds</h1>
-
-
-        <h1>Egenskaper</h1>
+        <h1 className="Admin-Header">Förslag på lekplatser</h1>
+        <p>{"//TODO"}</p>
+        <h1 className="Admin-Header">Förslag på förändringar</h1>
+        <p>{"//TODO"}</p>
+        <h1 className="Admin-Header">Playgrounds</h1>
+        <Map className="Admin-Playgrounds-Map"
+            mapCenterMoved={() => {}}
+            center={{lat: 62, lon: 15}}
+            height='400px'
+            width='400px'
+            zoom={5}
+            playgrounds={this.state.playgrounds}/>
+        <h1 className="Admin-Header">Egenskaper</h1>
         <ReactTable
             data={this.state.tags}
             columns={[
@@ -94,10 +86,7 @@ class Admin extends Component {
                 }
             ]}
         />
-        <h1>Suggestions</h1>
-        <p>//TODO</p>
-        <h1>Modifications</h1>
-        <p>//TODO</p>
+
       </div>
     </div>
     );

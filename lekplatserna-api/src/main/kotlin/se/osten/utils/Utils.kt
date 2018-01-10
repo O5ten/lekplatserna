@@ -2,6 +2,8 @@ package se.osten.utils
 
 import org.litote.kmongo.MongoOperator
 import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.Envelope
+import org.locationtech.jts.index.kdtree.KdNode
 import se.osten.beans.Playground
 import spark.Request
 import java.nio.charset.Charset
@@ -72,6 +74,22 @@ fun distanceByUnitToMeters(distance: Double, unit: String): Double {
 }
 
 //This should be redone.
+fun getEnvelopeByCoord(lat: Double, lon: Double, distanceInMeters: Double ): Envelope{
+    val square = getSquareArea(lat, lon, distanceInMeters)
+    return Envelope(square.first, square.second)
+}
+
+fun filterNodesOutsideRange(nodesWithinRange: ArrayList<KdNode>, lat: Double, lon: Double, distanceInMeters: Double): List<Playground>{
+    return nodesWithinRange.map {
+        n -> (n.data as Playground)
+    }.map {
+        p -> p.copy(distance = p2pDistance(lat, lon, p.lat, p.lon))
+    }.filter{
+        p -> p.distance < distanceInMeters
+    }.sortedBy{
+        it.distance
+    }
+}
 
 fun getSquareArea(latitude: Double, londitude: Double, length: Double): Pair<Coordinate, Coordinate> {
     val coefficient: Double = length * 0.0000089;

@@ -58,8 +58,8 @@ class PlaygroundService {
             return Promise.reject(new Error('id must be provided to fetch playground'));
         }
         return fetch(`/api/playground/suggestion/${id}`, UserProfile.authOptions()).then((response) => {
-                return response.json();
-            });
+            return response.json();
+        });
     }
 
     static fetchTags(){

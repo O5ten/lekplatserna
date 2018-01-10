@@ -8,6 +8,7 @@
     "cross-fetch": "^1.1.1",
     "font-awesome": "^4.7.0",
     "google-maps": "^3.2.1",
+    "markerwithlabel": "^2.0.1",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-addons-shallow-compare": "^15.6.2",

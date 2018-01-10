@@ -41,22 +41,12 @@ class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPat
                 val distance = req.params("distance").toDouble()
                 val unit = req.params("unit") ?: "m"
                 val distanceInMeters = distanceByUnitToMeters(distance, unit)
-                val square = getSquareArea(lat, lon, distanceInMeters)
-                val byLocation = Envelope(square.first, square.second)
-                val nodesWithinRange = playgroundCache.query(byLocation) as ArrayList<KdNode>
+                val nodesWithinRange = playgroundCache.query(getEnvelopeByCoord(lat, lon, distanceInMeters)) as ArrayList<KdNode>
                 log(req, " ${nodesWithinRange.size} results delivered")
-                gson.toJson(nodesWithinRange.map {
-                    n -> (n.data as Playground)
-                }.map {
-                    p -> p.copy(distance = p2pDistance(
+                gson.toJson(filterNodesOutsideRange(nodesWithinRange,
                         req.params("lat").toDouble(),
                         req.params("lon").toDouble(),
-                        p.lat, p.lon))
-                }.filter{
-                    p -> p.distance < distanceInMeters
-                }.sortedBy{
-                    it.distance
-                })
+                        distanceInMeters))
             }
             get("/"){ req, res ->
                 res.type("application/json");
@@ -86,13 +76,19 @@ class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPat
             post("") { req, res ->
                 val id: String = createGuid()
                 val playground: Playground = gson.fromJson(req.body(), Playground::class.java).copy(id)
-                dao.save(playground)
-                log(req, "$id created")
-                res.status(201)
+                val nearbyPlaygrounds = playgroundCache.query(getEnvelopeByCoord(playground.lat, playground.lon, 100.0)) as ArrayList<KdNode>
                 res.type("application/json")
-                dao.save(playground)
-                playgroundCache.insert(Coordinate(playground.lat, playground.lon), playground)
-                gson.toJson(PlaygroundResponse(id, "created"))
+                if(nearbyPlaygrounds.size > 0){
+                    log(req, "$id not created because of conflict with ${nearbyPlaygrounds.size} playgroudns")
+                    res.status(409)
+                    gson.toJson(filterNodesOutsideRange(nearbyPlaygrounds, playground.lat, playground.lon, 100.0))
+                }else{
+                    dao.save(playground)
+                    log(req, "$id created")
+                    res.status(201)
+                    playgroundCache.insert(Coordinate(playground.lat, playground.lon), playground)
+                    gson.toJson(PlaygroundResponse(id, "created"))
+                }
             }
 
             put("/:id") { req, res ->
