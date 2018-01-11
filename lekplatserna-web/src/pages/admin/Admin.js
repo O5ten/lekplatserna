@@ -30,7 +30,7 @@ class Admin extends Component {
         PlaygroundService.fetchModifications(),
         PlaygroundService.fetchSuggestions(),
         PlaygroundService.fetchTags()]
-    ).then(function(results){
+    ).then((results) => {
         [playgrounds, modifications, suggestions, tags] = results;
         this.setState(Object.assign({}, this.state, {
             playgrounds: playgrounds,
@@ -38,7 +38,8 @@ class Admin extends Component {
             suggestions: suggestions,
             tags: tags
         }));
-    }.bind(this));
+    }, () => this.props.history.push('/logout'));
+
   }
 
   render() {

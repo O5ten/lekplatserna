@@ -3,7 +3,7 @@ import './Home.css';
 import ResultSet from '../components/ResultSet';
 import SearchCity from '../components/SearchCity';
 import PlaygroundService from '../services/PlaygroundService';
-
+import CityService from '../services/CityService';
 class Home extends Component {
 
   constructor(){
@@ -33,6 +33,13 @@ class Home extends Component {
         }));
     }
   }
+
+  componentDidMount(){
+    let cityName = this.props.location.pathname.substring(1);
+    if(cityName.length > 0 && cityName.indexOf("/") === -1){
+        CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0]));
+    }
+  }
   
   render() {
     return (
@@ -45,7 +52,7 @@ class Home extends Component {
             <button className="Home-activity-area-proximity button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
             <p className="Home-activity-area-or">eller</p>
             <center>
-                <SearchCity className="Home-activity-area-search" onCitySelected={this.fetchPlaygroundsByLocation.bind(this)} />
+                <SearchCity className="Home-activity-area-search" onCitySelected={(city) => { this.props.history.push('/' + city.label); this.fetchPlaygroundsByLocation(city)}} />
             </center>
         </div>
         { this.state.locationSelected &&
