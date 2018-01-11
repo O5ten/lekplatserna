@@ -38,6 +38,7 @@ class Routes extends Component {
              <div>
                  <div className="Navigation">
                     <Link className="Navigation-Link" to="/"><i className="fa fa-home"/></Link>
+                    <Link className="Navigation-Link" to="/om"><i className="fa fa-info"/></Link>
                     {UserProfile.isAdmin() ? (<Link className="Navigation-Link" to="/admin/lekplats"><i className="fa fa-plus-circle"/></Link>) : (<span/>)}
                     {UserProfile.isAdmin() ? (<Link className="Navigation-Link" to="/admin"><i className="fa fa-cog"/></Link>) : (<span/>)}
                     {UserProfile.getCurrentSession() ?

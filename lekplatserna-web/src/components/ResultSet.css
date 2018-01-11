@@ -5,4 +5,10 @@
 
 .ResultSet-header {
     -webkit-margin-before: 0.42em;
+    margin: 8px;
+}
+
+.ResultSet-Range {
+    float: right;
+    margin: 8px;
 }

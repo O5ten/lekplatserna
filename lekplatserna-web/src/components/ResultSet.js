@@ -32,6 +32,9 @@ class ResultSet extends Component {
   render() {
     return (
       <div className="ResultSet">
+        <p className="ResultSet-Range">
+            Avstånd
+        </p>
         <h2 className="ResultSet-header">{this.props.message}</h2>
         <div className="ResultSet-list">
             {

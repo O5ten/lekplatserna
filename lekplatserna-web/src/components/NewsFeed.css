@@ -1,0 +1,15 @@
+.NewsFeed {
+    padding: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    box-shadow: 3px 3px #555;
+    text-align: left;
+}
+
+.NewsFeed-Post-Created {
+    float: left;
+}
+
+.NewsFeed-Post-Author {
+    float: right;
+}
