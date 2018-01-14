@@ -5,10 +5,12 @@
 
 .ResultSet-header {
     -webkit-margin-before: 0.42em;
-    margin: 8px;
+    padding: 4px;
 }
 
-.ResultSet-Range {
+.ResultSet-Range-Dropdown {
     float: right;
-    margin: 8px;
+    width: 60px;
+    height: 20px;
+    cursor: pointer;
 }

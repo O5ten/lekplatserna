@@ -14,7 +14,8 @@ class Home extends Component {
   constructor(){
     super();
     this.state = {
-        locationSelected: false,
+        distance: "500",
+        unitOfMeasurement: "m",
         playgrounds: [],
         message: ""
     }
@@ -24,26 +25,37 @@ class Home extends Component {
     return navigator.geolocation.getCurrentPosition(this.fetchPlaygroundsByLocation.bind(this));
   }
 
-  fetchPlaygroundsByLocation(location) {
+  fetchPlaygroundsByLocation(location, distance, unitOfMeasurement) {
     if(location){
+        distance = distance || this.state.distance;
+        unitOfMeasurement = unitOfMeasurement || this.state.unitOfMeasurement;
         PlaygroundService.fetchPlaygroundsByLocation({
             lon: location.lon || location.coords.longitude,
             lat: location.lat || location.coords.latitude
-        }).then((playgrounds) => this.setState({
-            locationSelected: true,
-            playgrounds: playgrounds,
-            message: !!location.lon ?
-            `Lekplatser i ${location.label} (${playgrounds.length} stycken)`:
-            `Lekplatser nära dig (${playgrounds.length} stycken)`
-        }));
+        }, distance, unitOfMeasurement).then((playgrounds) => {
+            this.setState(Object.assign({}, this.state, {
+                location: location,
+                playgrounds: playgrounds,
+                distance: distance,
+                unitOfMeasurement: unitOfMeasurement,
+                message: !!location.lon ?
+                    `Lekplatser i ${location.label} (${playgrounds.length} stycken)` :
+                    `Lekplatser nära dig (${playgrounds.length} stycken)`
+            }));
+        });
     }
+  }
+
+  onDistanceSelection(value){
+     let values = value.split(' ');
+     this.fetchPlaygroundsByLocation(this.state.location, values[0], values[1]);
   }
 
   componentDidMount(){
     let cityName = this.props.location.pathname.substring(1);
     if(cityName.length > 0 && cityName.indexOf("/") === -1){
         document.title = "LEKPLATSERNA " + cityName.toUpperCase();
-        CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0]));
+        CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0], this.state.distance, this.state.unitOfMeasurement));
     }
   }
   
@@ -55,17 +67,17 @@ class Home extends Component {
             <div>Ett register med lekplatser för dig som behöver hitta en snabbt</div>
         </div>
         <div className="Home-activity-area">
-            <button className="Home-activity-area-proximity button" onClick={() => this.findPlaygroundsInProximity()}>Använd enhetens plats</button>
+            <button className="Home-activity-area-proximity button" onClick={this.findPlaygroundsInProximity.bind(this)}>Använd enhetens plats</button>
             <p className="Home-activity-area-or">eller</p>
             <center>
-                <SearchCity className="Home-activity-area-search" onCitySelected={(city) => { this.props.history.push('/' + city.label); this.fetchPlaygroundsByLocation(city)}} />
+                <SearchCity className="Home-activity-area-search" onCitySelected={(city) => { this.props.history.push('/' + city.label); this.fetchPlaygroundsByLocation(city, this.state.distance, this.state.unitOfMeasurement)}} />
             </center>
         </div>
-        { this.state.locationSelected ?
+        { (!!this.state.location) ?
             (<div className="Home-activity-resultset">
-                <ResultSet message={this.state.message} playgrounds={this.state.playgrounds}/>
+                <ResultSet onDistanceSelection={this.onDistanceSelection.bind(this)} message={this.state.message} playgrounds={this.state.playgrounds}/>
             </div>) :
-            <NewsFeed/>
+            (<NewsFeed/>)
         }
       </div>
     );

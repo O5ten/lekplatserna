@@ -52,6 +52,8 @@ class SearchCity extends Component {
             className="SearchCity"
             placeholder="Ange stad eller ort"
             noResultsText="Inga resultat"
+            onBlurResetsInput={false}
+            onSelectResetsInput={false}
             arrowRenderer={null}
             isLoading={this.state.isLoading}
             name="form-field-name"

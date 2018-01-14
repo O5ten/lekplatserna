@@ -2,7 +2,22 @@ import React, { Component } from 'react';
 import './ResultSet.css';
 import ResultSetItem from './ResultSetItem';
 import PlaygroundService from '../services/PlaygroundService';
+import Dropdown from 'react-select';
 class ResultSet extends Component {
+
+    constructor(){
+        super();
+        this.state = {
+            distances: [
+                { value: '500 m', label: '500 m'},
+                { value: '1 km', label: '1 km' },
+                { value: '3 km', label: '3 km' },
+                { value: '5 km', label: '5 km' },
+                { value: '20 km', label: '20 km' }
+            ],
+            selectedDistance: { value: '500 m', label: '500m'}
+        };
+    }
 
   componentDidMount(){
     if(this.props.playgrounds.length > 0){
@@ -22,7 +37,6 @@ class ResultSet extends Component {
       function step() {
           var normalizedTime = (performance.now() - startTime) / 500;
           if (normalizedTime > 1) normalizedTime = 1;
-
           window.scrollTo(0, baseY + difference * Math.cos(normalizedTime * Math.PI));
           if (normalizedTime < 1) window.requestAnimationFrame(step);
       }
@@ -32,14 +46,24 @@ class ResultSet extends Component {
   render() {
     return (
       <div className="ResultSet">
-        <p className="ResultSet-Range">
-            Avstånd
-        </p>
+        <Dropdown
+            onBlurResetsInput={false}
+            onSelectResetsInput={false}
+            options={this.state.distances}
+            simpleValue
+            clearable={false}
+            value={this.state.selectedDistance}
+            onChange={(v) => {
+                this.setState(Object.assign({}, this.state, {selectedDistance: {label: v, value: v}}));
+                this.props.onDistanceSelection(v);
+            }}
+            searchable={false}
+            className="ResultSet-Range-Dropdown"/>
         <h2 className="ResultSet-header">{this.props.message}</h2>
         <div className="ResultSet-list">
             {
                 this.props.playgrounds.map(function(playground){
-                    return <ResultSetItem playground={playground} key={playground.name}/>;
+                    return <ResultSetItem playground={playground} key={playground.id + playground.distance}/>;
                 })
             }
         </div>
