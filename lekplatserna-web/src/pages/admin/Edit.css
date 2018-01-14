@@ -1,5 +1,5 @@
 .Edit {
-    background: #ddd;
+    background: #9bf;
     padding: 8px;
     margin: 8px;
     color: black;
@@ -60,8 +60,11 @@
 }
 .ReactTags__tagInput input.ReactTags__tagInputField,
 .ReactTags__tagInput input.ReactTags__tagInputField:focus {
-    background: transparent;
-    border: none;
+    background: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaa;
+    border-radius: 5px;
     height: 14px;
     padding: 5px;
     margin: 0;
@@ -71,14 +74,17 @@
 
 /* Styles for selected tags */
 .ReactTags__selected span.ReactTags__tag {
-    border: 1px solid #ddd;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #aaa;
+    border-radius: 5px;
+    color: #666;
     background: #eee;
     font-size: 12px;
     display: inline-block;
     padding: 5px;
     margin: 0 5px;
     cursor: move;
-    border-radius: 2px;
 }
 .ReactTags__selected a.ReactTags__remove {
     color: #aaa;

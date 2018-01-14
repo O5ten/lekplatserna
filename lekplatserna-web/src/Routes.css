@@ -11,10 +11,10 @@
 .Navigation-Link {
     margin: 8px;
     color: #fff;
-    font-size:15px;
+    font-size:20px;
 }
 
 .Navigation-Link:hover {
     margin: 8px;
-    color: #ccc;
+    color: #ddd;
 }

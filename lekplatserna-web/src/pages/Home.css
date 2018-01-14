@@ -10,16 +10,13 @@
 
 .Home-activity-area-or {
     margin: 8px;
-    color: black;
     font-weight: bold;
 }
 
 .Home-header {
-  background: #ddd;
+  background: #9bf;
   padding: 16px;
   border-radius: 0px 0px 5px 5px;
-  color: black;
-  box-shadow: 3px 3px #555;
 }
 
 .Home-Header-Text {
@@ -29,18 +26,17 @@
 }
 
 .Home-activity-resultset {
-  background-color: #ddd;
+  background-color: #9bf;
   border-radius: 5px;
   min-height: 150px;
   border-width: 1px;
   padding: 8px;
-  box-shadow: 3px 3px #555;
 }
 
 .Home-activity-resultset-info {
   margin: 0px;
   padding: 8px;
   border-radius: 15px;
-  background-color: #ddd;
+  background-color: #9bf;
 }
 

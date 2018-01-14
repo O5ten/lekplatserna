@@ -1,8 +1,7 @@
 .Lekplats {
-    background: #ddd;
+    background: #9bf;
     padding: 8px;
     margin: 8px;
-    color: black;
     border-radius: 5px;
     min-height: 100%;
 }
@@ -19,6 +18,5 @@
     border-width: 2px;
     border-radius: 5px;
     background: black;
-    color: white;
     text-align: center;
 }

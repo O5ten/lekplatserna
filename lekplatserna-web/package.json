@@ -22,7 +22,8 @@
     "react-selectize": "2.1.0",
     "react-table": "^6.7.6",
     "react-tag-input": "^4.7.2",
-    "throttle-debounce": "^1.0.1"
+    "throttle-debounce": "^1.0.1",
+    "typeface-roboto": "0.0.50"
   },
   "scripts": {
     "start": "react-scripts start",

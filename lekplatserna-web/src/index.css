@@ -1,17 +1,19 @@
 html {
-  background: yellow;
+  background: #f80;
   background-repeat: no-repeat;
   min-height: 100%;
   margin: 0px;
   padding: 0px;
-  font: 400 13.33333px monospace;
+  font: 400 13.33333px roboto;
+  color: #444;
+
 }
 
 body {
   min-height: 100%;
   margin: 0px;
   padding: 0px;
-  font: 400 13.33333px monospace;
+  font: 400 13.33333px roboto;
 }
 
 #root {
@@ -25,7 +27,7 @@ body {
     border-style: solid;
     border-width: 1px;
     color: black;
-    font: 400 13.33333px monospace;
+    font: 400 13.33333px roboto;
     font-weight: bold;
     width: 220px;
     height: 40px;

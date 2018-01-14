@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from './Routes.js'
 import 'font-awesome/css/font-awesome.min.css';
+import "typeface-roboto";
 
 import './index.css';
 
