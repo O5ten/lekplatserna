@@ -41,12 +41,13 @@ class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPat
                 val distance = req.params("distance").toDouble()
                 val unit = req.params("unit") ?: "m"
                 val distanceInMeters = distanceByUnitToMeters(distance, unit)
-                val nodesWithinRange = playgroundCache.query(getEnvelopeByCoord(lat, lon, distanceInMeters)) as ArrayList<KdNode>
-                log(req, " ${nodesWithinRange.size} results delivered")
-                gson.toJson(filterNodesOutsideRange(nodesWithinRange,
+                val nodesWithinEnvelope = playgroundCache.query(getEnvelopeByCoord(lat, lon, distanceInMeters)) as ArrayList<KdNode>
+                val nodesWithinRange = filterNodesOutsideRange(nodesWithinEnvelope,
                         req.params("lat").toDouble(),
                         req.params("lon").toDouble(),
-                        distanceInMeters))
+                        distanceInMeters)
+                log(req, " ${nodesWithinRange.size} results delivered")
+                gson.toJson(nodesWithinRange)
             }
             get("/"){ req, res ->
                 res.type("application/json");

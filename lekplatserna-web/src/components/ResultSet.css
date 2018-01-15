@@ -14,3 +14,9 @@
     height: 20px;
     cursor: pointer;
 }
+
+i.ResultSet-list-Message-Arrow {
+    font-size: 25px;
+    padding: 0px 30px 0px 0px;
+    float: right;
+}

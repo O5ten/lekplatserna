@@ -62,9 +62,17 @@ class ResultSet extends Component {
         <h2 className="ResultSet-header">{this.props.message}</h2>
         <div className="ResultSet-list">
             {
-                this.props.playgrounds.map(function(playground){
+                this.props.playgrounds.length > 0 ? this.props.playgrounds.map(function(playground){
                     return <ResultSetItem playground={playground} key={playground.id + playground.distance}/>;
-                })
+                }) : (
+                <center>
+                    <div className="ResultSet-list-Message">
+                        <i className="ResultSet-list-Message-Arrow fa fa-arrow-up"/>
+                        <br/>
+                        <p>Det finns inga registrerade lekplatser så nära dig.</p>
+                        <p>Prova expandera sökradien för att hitta fler resultat</p>
+                    </div>
+                </center>)
             }
         </div>
       </div>
