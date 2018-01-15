@@ -51,6 +51,7 @@ class ResultSet extends Component {
             onBlurResetsInput={false}
             onSelectResetsInput={false}
             options={this.state.distances}
+            disabled={this.props.distanceDisabled}
             simpleValue
             clearable={false}
             value={this.props.defaultDistance}
@@ -66,14 +67,14 @@ class ResultSet extends Component {
                     return <ResultSetItem
                                 playground={playground}
                                 key={playground.id + playground.distance}/>;
-                }) : (<center>
+                }) : (!this.props.distanceDisabled ? (<center>
                     <div className="ResultSet-list-Message">
                         <i className="ResultSet-list-Message-Arrow fa fa-arrow-up"/>
                         <br/>
-                        <p>Det finns inga registrerade lekplatser så nära dig.</p>
+                        <p>Det finns inga registrerade lekplatser så nära.</p>
                         <p>Prova expandera sökradien för att hitta fler resultat</p>
                     </div>
-                </center>)
+                </center>) : (<p>Det finns inga registrerade lekplatser i närheten</p>))
             }
         </div>
       </div>

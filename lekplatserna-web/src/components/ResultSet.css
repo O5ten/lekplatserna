@@ -1,6 +1,10 @@
 .ResultSet {
     text-align: left;
-    border-radius: 25px;
+    background-color: #9bf;
+    border-radius: 5px 5px 0px 0px;
+    min-height: 150px;
+    border-width: 1px;
+    padding: 8px;
 }
 
 .ResultSet-header {

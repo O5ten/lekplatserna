@@ -117,19 +117,17 @@ class Home extends Component {
                     }}/>
             </center>
         </div>
-        { (!!this.state.location) ?
-            (<div className="Home-activity-resultset">
-                <ResultSet
-                    defaultDistance={{
-                        value: this.state.distance + ' ' + this.state.unitOfMeasurement,
-                        label: this.state.distance + ' ' + this.state.unitOfMeasurement
-                    }}
-                    onDistanceSelection={this.onDistanceSelection.bind(this)}
-                    message={this.state.message}
-                    playgrounds={this.state.playgrounds}/>
-            </div>) :
-            (<NewsFeed/>)
-        }
+        <div className="Home-activity-resultset">
+            <ResultSet
+                defaultDistance={{
+                    value: this.state.distance + ' ' + this.state.unitOfMeasurement,
+                    label: this.state.distance + ' ' + this.state.unitOfMeasurement
+                }}
+                onDistanceSelection={this.onDistanceSelection.bind(this)}
+                message={this.state.message}
+                playgrounds={this.state.playgrounds}/>
+        </div>
+        <NewsFeed/>
       </div>
     );
   }

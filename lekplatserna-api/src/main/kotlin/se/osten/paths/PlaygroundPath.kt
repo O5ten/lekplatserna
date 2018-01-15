@@ -65,8 +65,18 @@ class PlaygroundPath(private val dao: DAO<Playground>, private val additionalPat
                 val id = req.params("id")
                 val playground: Playground? = dao.findById(id)
                 if (playground != null) {
+                    val distanceInMeters = distanceByUnitToMeters(500.0, "m")
+                    val playgroundsWithinEnvelope = playgroundCache.query(getEnvelopeByCoord(playground.lat, playground.lon, distanceInMeters)) as ArrayList<KdNode>
+                    val playgroundsWithinRange = filterNodesOutsideRange(playgroundsWithinEnvelope,
+                            playground.lat,
+                            playground.lon,
+                            distanceInMeters).filter {
+                        !it.name.equals(playground.name)
+                    }
+
+                    val enrichedPlayground = playground.copy(nearby = playgroundsWithinRange)
                     log(req, "found")
-                    gson.toJson(playground)
+                    gson.toJson(enrichedPlayground)
                 } else {
                     log(req, "not found")
                     res.status(404)

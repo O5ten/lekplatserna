@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom'
 import UserProfile from '../utils/UserProfile';
 import PlaygroundService from '../services/PlaygroundService';
 
+import ResultSet from '../components/ResultSet';
+
 import './Lekplats.css';
+
 class Lekplats extends Component {
 
   constructor(route){
@@ -19,8 +22,11 @@ class Lekplats extends Component {
         description: '',
         lat: 0.0,
         lon: 0.0,
-        tags: []
-      }
+        tags: [],
+        nearby: []
+      },
+      distance: "500",
+      unitOfMeasurement: "m"
     };
   }
 
@@ -61,6 +67,16 @@ class Lekplats extends Component {
                 containerElement={<div style={{ height: `400px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
               />
+          </div>
+          <div className="Home-Nearby-ResultSet">
+              <ResultSet
+                  defaultDistance={{
+                      value: "500 m",
+                      label: "500 m"
+                  }}
+                  distanceDisabled
+                  message="Lekplatser i närheten "
+                  playgrounds={this.state.playground.nearby}/>
           </div>
       </div>
     );

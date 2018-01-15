@@ -14,11 +14,23 @@ class NewsFeed extends Component {
     this.setState(Object.assign({}, this.state, {
         posts: [
         {
+            id: 5,
+            headline: "Närliggande lekplatser och radie",
+            created: new Date(1515075266000).getTime(),
+            author: "Mikael",
+            message: `Denna kväll har lett till features som att man kan välja att expandera sitt resultatset med en dropdown-knapp uppe i högra hörnet.
+            Sen har jag återanvänt det resultat-set som renderas på home till sidorna som visar specifika lekplatser. Det för att visa närliggande platser när man väl är inne på en specifik.
+            Nästa steg blir att generera en karta istället för en lista med entries med samma funktionalitet.
+            Därefter kommer vanliga användare få lite kärlek genom att kunna skicka in förslag och förändringar på lekplatser.`
+        },
+        {
             id: 4,
-            headline: "Nyhetsflöde och om-sida tillagd",
+            headline: "Veckans features",
             created: new Date(1515045266000).getTime(),
             author: "Mikael",
-            message: "Features som lagts till nyligen tillhör att kunna ge länkar till städer och orter direkt med https://lekplatserna.se/karlshamn. Dessutom har jag lagt till detta statiska nyhetsflöde som förberedelse inför när jag lagt till backendstöd för det. Samt en om-sida i headern som berättar varför och som har en github-ribbon till projektet där.",
+            message: `Features som lagts till nyligen tillhör att kunna ge länkar
+                       till städer och orter direkt genom att använda urlen. Till exempel https://lekplatserna.se/karlshamn skulle rendera lekplatserna i karlshamn direkt medan en tom url http:/lekplatserna.se skulle använda enhetens plats som standard.
+                       Dessutom har jag lagt till detta statiska nyhetsflöde som förberedelse inför när jag lagt till backendstöd för det.`,
         },
         {
             id: 3,
@@ -36,7 +48,7 @@ class NewsFeed extends Component {
         },
         {
             id: 1,
-            headline: "Karlshamn kommun tillagd som första kommun!",
+            headline: "Karlshamn kommun tillagd som första kompletta kommun!",
             created: new Date(1510400200000).getTime(),
             author: "Mikael",
             message: "Karlshamn kommun är första kommunen att få varje lekplats som kommunen har i sin ägo listad på lekplatserna.se"
