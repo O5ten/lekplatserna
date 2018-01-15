@@ -1,13 +1,11 @@
 package se.osten
 
-import com.google.common.collect.Lists
 import se.osten.beans.Auth
 import se.osten.beans.DatabaseConnection
 import se.osten.beans.User
 import se.osten.dao.MongoPlaygroundDAO
 import se.osten.dao.MongoTagView
 import se.osten.paths.*
-import se.osten.utils.encode64
 import spark.Spark.get
 import spark.Spark.path
 import spark.kotlin.port

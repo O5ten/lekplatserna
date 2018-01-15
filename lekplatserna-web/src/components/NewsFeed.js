@@ -49,9 +49,9 @@ class NewsFeed extends Component {
         <div className="NewsFeed">
             {
                 (this.state.posts.slice(0, 10).map(p => (
-                    <a href={"/news/" + p.id}>
+                    <a key={p.id} href={"/news/" + p.id}>
                         <label>
-                            <div className="NewsFeed-Post" key={p.headline}>
+                            <div className="NewsFeed-Post">
                                 <h2 className="NewsFeed-Post-Header">{p.headline}</h2>
                                 <p className="NewsFeed-Post-Content">{p.message}</p>
                                 <br/>

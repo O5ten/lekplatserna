@@ -22,7 +22,11 @@ class Home extends Component {
   }
 
   findPlaygroundsInProximity() {
-    return navigator.geolocation.getCurrentPosition(this.fetchPlaygroundsByLocation.bind(this));
+    return navigator.geolocation.getCurrentPosition(this.fetchPlaygroundsByLocation.bind(this), this.handleLocationLookupFailed.bind(this));
+  }
+
+  handleLocationLookupFailed(err) {
+    console.log("Location lookup failed", err)
   }
 
   fetchPlaygroundsByLocation(location, distance, unitOfMeasurement) {
@@ -53,6 +57,9 @@ class Home extends Component {
 
   componentDidMount(){
     let cityName = this.props.location.pathname.substring(1);
+    if(cityName.length === 0){
+        this.findPlaygroundsInProximity();
+    }
     if(cityName.length > 0 && cityName.indexOf("/") === -1){
         document.title = "LEKPLATSERNA " + cityName.toUpperCase();
         CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0], this.state.distance, this.state.unitOfMeasurement));
