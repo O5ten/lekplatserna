@@ -13,9 +13,9 @@ class ResultSet extends Component {
                 { value: '1 km', label: '1 km' },
                 { value: '3 km', label: '3 km' },
                 { value: '5 km', label: '5 km' },
-                { value: '20 km', label: '20 km' }
-            ],
-            selectedDistance: { value: '500 m', label: '500m'}
+                { value: '20 km', label: '2 mil' },
+                { value: '50 km', label: '5 mil' }
+            ]
         };
     }
 
@@ -47,25 +47,26 @@ class ResultSet extends Component {
     return (
       <div className="ResultSet">
         <Dropdown
+            className="ResultSet-Range-Dropdown"
             onBlurResetsInput={false}
             onSelectResetsInput={false}
             options={this.state.distances}
             simpleValue
             clearable={false}
-            value={this.state.selectedDistance}
+            value={this.props.defaultDistance}
             onChange={(v) => {
                 this.setState(Object.assign({}, this.state, {selectedDistance: {label: v, value: v}}));
                 this.props.onDistanceSelection(v);
             }}
-            searchable={false}
-            className="ResultSet-Range-Dropdown"/>
+            searchable={false}/>
         <h2 className="ResultSet-header">{this.props.message}</h2>
         <div className="ResultSet-list">
             {
                 this.props.playgrounds.length > 0 ? this.props.playgrounds.map(function(playground){
-                    return <ResultSetItem playground={playground} key={playground.id + playground.distance}/>;
-                }) : (
-                <center>
+                    return <ResultSetItem
+                                playground={playground}
+                                key={playground.id + playground.distance}/>;
+                }) : (<center>
                     <div className="ResultSet-list-Message">
                         <i className="ResultSet-list-Message-Arrow fa fa-arrow-up"/>
                         <br/>

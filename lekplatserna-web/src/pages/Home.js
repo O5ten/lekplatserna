@@ -22,7 +22,14 @@ class Home extends Component {
   }
 
   findPlaygroundsInProximity() {
-    return navigator.geolocation.getCurrentPosition(this.fetchPlaygroundsByLocation.bind(this), this.handleLocationLookupFailed.bind(this));
+    this.setState(Object.assign({}, this.state, {
+        distance: "500",
+        unitOfMeasurement: "m"
+    }));
+    return navigator.geolocation.getCurrentPosition(
+        this.fetchPlaygroundsByLocation.bind(this),
+        this.handleLocationLookupFailed.bind(this)
+    );
   }
 
   handleLocationLookupFailed(err) {
@@ -43,8 +50,8 @@ class Home extends Component {
                 distance: distance,
                 unitOfMeasurement: unitOfMeasurement,
                 message: !!location.lon ?
-                    `Lekplatser i ${location.label} (${playgrounds.length} stycken)` :
-                    `Lekplatser nära dig (${playgrounds.length} stycken)`
+                    `${location.label} (${playgrounds.length})` :
+                    `Nära dig (${playgrounds.length})`
             }));
         });
     }
@@ -62,7 +69,25 @@ class Home extends Component {
     }
     if(cityName.length > 0 && cityName.indexOf("/") === -1){
         document.title = "LEKPLATSERNA " + cityName.toUpperCase();
-        CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0], this.state.distance, this.state.unitOfMeasurement));
+        let radius = this.getRoughDistanceAndUnitByCity(cityName);
+        CityService.fetchCityByName(cityName).then(city => city[0] && this.fetchPlaygroundsByLocation(city[0], radius.distance, radius.unitOfMeasurement));
+    }
+  }
+
+  getRoughDistanceAndUnitByCity(cityName){
+    let isSocken = cityName.toLowerCase().indexOf(' socken') !== -1;
+    let isKommun = cityName.toLowerCase().indexOf(' kommun') !== -1;
+    let isStad = cityName.toLowerCase().endsWith(" stad");
+    if(isSocken || isKommun || isStad){
+        return {
+            distance: '50',
+            unitOfMeasurement: 'km'
+        };
+    }else{
+        return {
+           distance: '500',
+           unitOfMeasurement: 'm'
+        };
     }
   }
   
@@ -74,15 +99,34 @@ class Home extends Component {
             <div>Ett register med lekplatser för dig som behöver hitta en snabbt</div>
         </div>
         <div className="Home-activity-area">
-            <button className="Home-activity-area-proximity button" onClick={this.findPlaygroundsInProximity.bind(this)}>Använd enhetens plats</button>
+            <button
+                className="Home-activity-area-proximity button"
+                onClick={this.findPlaygroundsInProximity.bind(this)}>
+                Använd enhetens plats
+            </button>
             <p className="Home-activity-area-or">eller</p>
             <center>
-                <SearchCity className="Home-activity-area-search" onCitySelected={(city) => { this.props.history.push('/' + city.label); this.fetchPlaygroundsByLocation(city, this.state.distance, this.state.unitOfMeasurement)}} />
+                <SearchCity
+                    className="Home-activity-area-search"
+                    onCitySelected={(city) => {
+                        if(city){
+                            let radius = this.getRoughDistanceAndUnitByCity(city.label);
+                            this.props.history.push('/' + city.label);
+                            this.fetchPlaygroundsByLocation(city, radius.distance, radius.unitOfMeasurement)
+                        }
+                    }}/>
             </center>
         </div>
         { (!!this.state.location) ?
             (<div className="Home-activity-resultset">
-                <ResultSet onDistanceSelection={this.onDistanceSelection.bind(this)} message={this.state.message} playgrounds={this.state.playgrounds}/>
+                <ResultSet
+                    defaultDistance={{
+                        value: this.state.distance + ' ' + this.state.unitOfMeasurement,
+                        label: this.state.distance + ' ' + this.state.unitOfMeasurement
+                    }}
+                    onDistanceSelection={this.onDistanceSelection.bind(this)}
+                    message={this.state.message}
+                    playgrounds={this.state.playgrounds}/>
             </div>) :
             (<NewsFeed/>)
         }

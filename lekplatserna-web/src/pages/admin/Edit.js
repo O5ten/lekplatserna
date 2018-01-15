@@ -137,7 +137,6 @@ class Edit extends Component {
                       center={this.state}
                       mapCenterMoved={this.mapCenterMoved.bind(this)}
                       height='400px'
-                      width='400px'
                       zoom={15}
                       playgrounds={[]}/>
             </div>

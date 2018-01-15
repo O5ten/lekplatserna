@@ -70,7 +70,6 @@ class Admin extends Component {
             mapCenterMoved={() => {}}
             center={{lat: 62, lon: 15}}
             height='400px'
-            width='400px'
             zoom={5}
             playgrounds={this.state.playgrounds}/>
         <h1 className="Admin-Header">Egenskaper</h1>
